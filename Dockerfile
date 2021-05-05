@@ -23,7 +23,7 @@ COPY requirements/prod.txt ./requirements/prod.txt
 RUN pip install -r ./requirements/prod.txt
 
 COPY manage.py ./manage.py
-COPY musicStore_website ./musicStore_website
+COPY catalog_service ./catalog_service
 
 EXPOSE 8000
 
