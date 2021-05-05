@@ -5,5 +5,7 @@
 to use manage.py ex.:
 
 make compose-manage-py cmd='makemigrations musicStore_website'
+
 make compose-manage-py cmd='migrate'
+
 make compose-manage-py cmd='createsuperuser'
