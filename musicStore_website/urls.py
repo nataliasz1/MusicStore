@@ -19,13 +19,15 @@ from . import views
 from rest_framework import routers
 
 
-router = routers.DefaultRouter()
-router.register(r'catalog', views.CatalogItemViewSet)
+#router = routers.DefaultRouter()
+#router.register(r'catalog', views.CatalogItemViewSet.as_view())
 
 urlpatterns = [
     path('admin/', admin.site.urls),
   #  path('', views.index, name = 'index'),
-    path('', include(router.urls)),
+   # path('', include(router.urls)),
+  #  path('/api', include(router.urls)),
+    path("", views.CatalogItemViewSet.as_view()),
 
   #  path('catalog', views.catalog, name= 'catalog'),
     path('profile', views.profile, name= 'profile'),

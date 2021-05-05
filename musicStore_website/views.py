@@ -1,5 +1,5 @@
 from django.http import HttpResponse
-from rest_framework import views, viewsets
+from rest_framework import views, viewsets, generics
 from rest_framework.views import APIView
 from .serializers import CatalogItemSerializer
 from .models import CatalogItem
@@ -18,8 +18,6 @@ def catalog(request):
     return HttpResponse('catalog page')
 
 
-
-
 class HomeView(APIView):  
 
  def get(self, request, format=None):
@@ -27,6 +25,8 @@ class HomeView(APIView):
     'HELLO WORLD FROM DJANGO AND DOCKER'}) 
 
 
-class CatalogItemViewSet(viewsets.ModelViewSet):
+class CatalogItemViewSet(generics.ListAPIView):
     queryset = CatalogItem.objects.all().order_by('name')
     serializer_class = CatalogItemSerializer
+
+

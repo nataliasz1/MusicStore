@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-b8vr__11ax)vn_%4h3!#!s^bf+u^tsh6kimpg0v7ab%6v^*nag
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['0.0.0.0']
+ALLOWED_HOSTS = ['0.0.0.0', '127.0.0.1']
 
 
 # Application definition
@@ -73,7 +73,8 @@ TEMPLATES = [
 WSGI_APPLICATION = 'musicStore_website.wsgi.application'
 
 REST_FRAMEWORK = {
-	'UNAUTHENTICATED_USER': None
+	'UNAUTHENTICATED_USER': None,
+    "DEFAULT_PERMISSION_CLASSES": ["rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly"]
 }
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
@@ -83,7 +84,9 @@ print(POSTGRES_HOST)
 POSTGRES_DB = os.environ.get('POSTGRES_DB', default="")
 print(POSTGRES_DB)
 POSTGRES_USER = os.environ.get('POSTGRES_USER', default="")
+print(POSTGRES_USER)
 POSTGRES_PASSWORD = os.environ.get('POSTGRES_PASSWORD', default="")
+print(POSTGRES_PASSWORD)
 
 
 DATABASES = {
@@ -96,6 +99,20 @@ DATABASES = {
         'PORT': 5432, 
     }
 }
+
+
+""" 
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'musicStore',
+        'USER': 'erasms',
+        'PASSWORD': 'erasms',
+        'HOST': 'localhost',
+        'PORT': 5432, 
+    }
+}
+ """
 
 # Password validation
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators

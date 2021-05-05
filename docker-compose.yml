@@ -5,7 +5,7 @@ x-service-volumes: &service-volumes
 
 
 x-database-variables: &database-variables
-  POSTGRES_DB: musicStore
+  POSTGRES_DB: musicStore2
   POSTGRES_USER: erasms
   POSTGRES_PASSWORD: erasms
 
