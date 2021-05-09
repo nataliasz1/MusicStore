@@ -1,4 +1,4 @@
-Django
-psycopg2
-djangorestframework
+Django==3.1.*
+psycopg2-binary==2.7.5
+djangorestframework==3.11.1
 django-mptt

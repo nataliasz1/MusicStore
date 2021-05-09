@@ -1,31 +1,11 @@
-FROM python:3.7-slim as production
+FROM python:3.6
+ENV PYTHONDONTWRITEBYTECODE 1
+ENV PYTHONUNBUFFERED 1
 
-ENV PYTHONBUFFERED=1
-WORKDIR /app/
+RUN mkdir /app
+WORKDIR /app
 
-RUN apt-get update && \
-    apt-get install -y \
-    bash \
-    build-essential \
-    gcc \
-    libffi-dev \
-    musl-dev \
-    openssl \
-    postgresql \
-    libpq-dev 
-
-COPY requirements/prod.txt ./requirements/prod.txt
-
-RUN pip install -r ./requirements/prod.txt
-
-COPY manage.py ./manage.py
-COPY catalog_service ./catalog_service
-
-EXPOSE 8000
-
-FROM production as development
-
-COPY requirements/prod.txt ./requirements/prod.txt
-RUN pip install -r ./requirements/prod.txt
+COPY requirements.txt requirements.txt
+RUN pip install -r requirements.txt
 
 COPY . .

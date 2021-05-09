@@ -1,0 +1,28 @@
+version: '3.7'
+
+services:
+  catalog_web:
+    build: ./catalog
+    command: bash -c "python3 ./manage.py makemigrations && python3 ./manage.py migrate && python3 ./manage.py runserver 0.0.0.0:8002"
+    ports:
+      - 8002:8002
+    restart: always
+    depends_on:
+      - postgres_db
+    links:
+      - postgres_db
+
+  postgres_db:
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: example
+
+  nginx:
+    build: ./web
+    ports:
+      - 80:80
+    links:
+      - catalog_web
+    depends_on:
+      - catalog_web
