@@ -23,6 +23,6 @@ router = routers.DefaultRouter()
 router.register('catalog', CatalogItemViewSet)
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
+    path('catalog/admin/', admin.site.urls),
     path('', include(router.urls)),
 ]
