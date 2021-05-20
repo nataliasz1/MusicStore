@@ -1,5 +1,4 @@
-Copy docker-compose.yml to kompose subderictory, then run:
-> kompose convert
+Prerequisites: installed minikube
 
 Start kubernetes cluster:
 > minikube start
@@ -10,14 +9,17 @@ Check your X(e.g. pod, deployment, svc, replicaset):
 Dashboard:
 > minikube dashboard
 
-Configure environment to use minikube’s Docker daemon. Then when you build some images locally they will be visible to minikube, so in the end you don't have to push everything to hub.
+Configure environment to use minikube’s Docker daemon. Follow instruction it will print at the end. 
+Then when you will build docker images using the terminal you set it up(e.g by docker compose up)
+the images will use minikube's docker, and they will be visible to minikube when deploying kubernetes.
+We won't need this after we start pushing images to docker hub repository.
 > minikube docker-env
 
-Deployment:
+Deployment(from ./kubernetes/deploy):
 > kubectl apply -f .
 
 Stop:
 > minikube stop
 
-Delete:
+Delete(purge, it will delete entire container including all images made inside of it locally):
 > minikube delete --all
