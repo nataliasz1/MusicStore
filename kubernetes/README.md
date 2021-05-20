@@ -15,6 +15,9 @@ the images will use minikube's docker, and they will be visible to minikube when
 We won't need this after we start pushing images to docker hub repository.
 > minikube docker-env
 
+Accessing apps, make sure they have external IP defined:
+> minikube tunnel
+
 Deployment(from ./kubernetes/deploy):
 > kubectl apply -f .
 
