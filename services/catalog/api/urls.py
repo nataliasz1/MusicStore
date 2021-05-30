@@ -17,12 +17,20 @@ from django.contrib import admin
 from django.urls import path, include
 from rest_framework import routers
 
-from api.views import CatalogItemViewSet
+from . import views
+from views import CatalogItemViewSet
 
 router = routers.DefaultRouter()
-router.register('catalog', CatalogItemViewSet)
+router.register(r'catalog', CatalogItemViewSet)
 
 urlpatterns = [
-    path('catalog/admin/', admin.site.urls),
+    path('admin/', admin.site.urls),
+    # path('', views.index, name = 'index'),
+    # path('', include(router.urls)),
+    # path('/api', include(router.urls)),
     path('', include(router.urls)),
+
+    # path('catalog', views.catalog, name= 'catalog'),
+    path('profile', views.profile, name='profile'),
+    path('login', views.login, name='login'),
 ]

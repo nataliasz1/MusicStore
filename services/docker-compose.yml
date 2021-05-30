@@ -10,8 +10,6 @@ services:
     expose:
       - 8002
     restart: always
-    depends_on:
-      - postgres-db
     links:
       - postgres-db
 
@@ -27,8 +25,6 @@ services:
     restart: always
     environment:
       DJANGO_SUPERUSER_PASSWORD: admin
-    depends_on:
-      - postgres-db
     links:
       - postgres-db
 
@@ -44,8 +40,14 @@ services:
     ports:
       - 9090:80
     links:
-      - catalog-web
-      - user-web
-    depends_on:
+      - frontend
+
+  frontend:
+    image: frontend:latest
+    build: ./frontend
+    command: http-server dist -a 0.0.0.0 --port 8800
+    expose:
+      - 8800
+    links:
       - catalog-web
       - user-web

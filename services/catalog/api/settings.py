@@ -14,7 +14,7 @@ import os
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-
+PROJECT_DIR = os.path.join(BASE_DIR, "api")
 
 # Quick-start development settings - unsuitable for productINSTALLED_APPS.ion
 # See https://docs.djangoproject.com/en/2.0/howto/deployment/checklist/
@@ -72,6 +72,21 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'api.wsgi.application'
 
+REST_FRAMEWORK = {
+	'UNAUTHENTICATED_USER': None,
+    "DEFAULT_PERMISSION_CLASSES": ["rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly"]
+}
+# Database
+# https://docs.djangoproject.com/en/3.2/ref/settings/#databases
+
+POSTGRES_HOST = os.environ.get('POSTGRES_HOST', default="")
+print(POSTGRES_HOST)
+POSTGRES_DB = os.environ.get('POSTGRES_DB', default="")
+print(POSTGRES_DB)
+POSTGRES_USER = os.environ.get('POSTGRES_USER', default="")
+print(POSTGRES_USER)
+POSTGRES_PASSWORD = os.environ.get('POSTGRES_PASSWORD', default="")
+print(POSTGRES_PASSWORD)
 
 # Database
 # https://docs.djangoproject.com/en/2.0/ref/settings/#databases
@@ -124,3 +139,8 @@ CORS_ALLOW_CREDENTIALS = True
 # https://docs.djangoproject.com/en/2.0/howto/static-files/
 
 STATIC_URL = '/static/'
+
+# Default primary key field type
+# https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
+
+DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
