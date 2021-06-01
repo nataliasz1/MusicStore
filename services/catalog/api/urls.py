@@ -15,22 +15,28 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from . import views
 from rest_framework import routers
 
-from . import views
-from views import CatalogItemViewSet
 
-router = routers.DefaultRouter()
-router.register(r'catalog', CatalogItemViewSet)
+#router = routers.DefaultRouter()
+#router.register(r'catalog', views.CatalogItemViewSet.as_view())
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    # path('', views.index, name = 'index'),
-    # path('', include(router.urls)),
-    # path('/api', include(router.urls)),
-    path('', include(router.urls)),
+  #  path('', views.index, name = 'index'),
+   # path('', include(router.urls)),
+  #  path('/api', include(router.urls)),
+    path("", views.CatalogViewSet.as_view()),
+    path("product/<slug:slug>", views.showItem),
+     path("category/<slug:slug>", views.showCategoryItems),
+     path("product/basket/", views.addToBasket),
+     path("opinion/add/", views.addOpinion),
+     path("opinion/", views.getOpinion),
 
-    # path('catalog', views.catalog, name= 'catalog'),
-    path('profile', views.profile, name='profile'),
-    path('login', views.login, name='login'),
+  #  path('catalog', views.catalog, name= 'catalog'),
+    path('profile', views.profile, name= 'profile'),
+    path('login', views.login, name= 'login'),
+   
+
 ]

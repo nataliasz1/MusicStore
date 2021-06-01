@@ -5,13 +5,15 @@ from .models import CatalogItem, Opinion, Category
 class CatalogItemSerializer(serializers.ModelSerializer):
     class Meta:
         model = CatalogItem
-        fields = ('id', 'name', 'description', 'price', 'quantity', 'stars', 'category', 'slug')
+        fields = ('catalog_item_id', 'name', 'description', 'price', 'quantity', 'stars', 'category', 'slug')
+       # fields = ('catalog_item_id')
+        
  
 
 class OpinionSerializer(serializers.ModelSerializer):
     class Meta:
         model = Opinion
-        fields = ('id', 'product', 'text', 'stars')
+        fields = ('opinion_id', 'product', 'text', 'stars')
 
 
 class CategorySerializer(serializers.ModelSerializer):

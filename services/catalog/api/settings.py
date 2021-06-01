@@ -74,18 +74,21 @@ WSGI_APPLICATION = 'api.wsgi.application'
 
 REST_FRAMEWORK = {
 	'UNAUTHENTICATED_USER': None,
-    "DEFAULT_PERMISSION_CLASSES": ["rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly"]
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.AllowAny',
+        
+    ]
 }
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
-POSTGRES_HOST = os.environ.get('POSTGRES_HOST', default="")
+POSTGRES_HOST = os.environ.get('POSTGRES_HOST', default="localhost")
 print(POSTGRES_HOST)
-POSTGRES_DB = os.environ.get('POSTGRES_DB', default="")
+POSTGRES_DB = os.environ.get('POSTGRES_DB', default="catalog")
 print(POSTGRES_DB)
-POSTGRES_USER = os.environ.get('POSTGRES_USER', default="")
+POSTGRES_USER = os.environ.get('POSTGRES_USER', default="nataliaszakiel")
 print(POSTGRES_USER)
-POSTGRES_PASSWORD = os.environ.get('POSTGRES_PASSWORD', default="")
+POSTGRES_PASSWORD = os.environ.get('POSTGRES_PASSWORD', default="erasms")
 print(POSTGRES_PASSWORD)
 
 # Database
@@ -93,10 +96,23 @@ print(POSTGRES_PASSWORD)
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': POSTGRES_DB,
+        'USER': POSTGRES_USER,
+        'PASSWORD': POSTGRES_PASSWORD,
+        'HOST': POSTGRES_HOST,
+        'PORT': 5432, 
     }
 }
+
+
+
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+#     }
+# }
 
 
 # Password validation

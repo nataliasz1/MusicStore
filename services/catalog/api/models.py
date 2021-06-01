@@ -1,10 +1,10 @@
 from django.db import models
-from django.urls import reverse
+from mptt.models import MPTTModel, TreeForeignKey
 from django.utils.translation import gettext_lazy as _
-from mptt.models import TreeForeignKey
+from django.urls import reverse
 
 
-class Category(models.Model):
+class Category(MPTTModel):
     """
     Category Table implimented with MPTT.
     """
@@ -16,7 +16,8 @@ class Category(models.Model):
         unique=True,
     )
     slug = models.SlugField(verbose_name=_("Category safe URL"), max_length=255, unique=True)
-    # parent = TreeForeignKey("self", on_delete=models.CASCADE, null=True, blank=True, related_name="children")
+    parent = TreeForeignKey("self", on_delete=models.CASCADE, null=True, blank=True, related_name="children")
+    
 
     class MPTTMeta:
         order_insertion_by = ["name"]
@@ -26,49 +27,59 @@ class Category(models.Model):
         verbose_name_plural = _("Categories")
 
     def get_absolute_url(self):
-        return reverse("store:category_list", args=[self.slug])
+        return reverse("catalog_service:category_id", args=[self.slug])
 
     def __str__(self):
         return self.name
 
 
 class CatalogItem(models.Model):
-    name = models.CharField(max_length=50)
-    description = models.CharField(max_length=500)
+    catalog_item_id = models.BigAutoField(primary_key=True)
+    name = models.CharField(max_length = 50)
+    description = models.CharField(max_length = 500)
     price = models.FloatField()
     quantity = models.IntegerField()
     slug = models.SlugField(max_length=255)
-    category = models.ForeignKey(Category, on_delete=models.RESTRICT)
+    category = models.ForeignKey(Category, on_delete=models.CASCADE)
+  #  category = models.ForeignKey(Category, on_delete=models.RESTRICT)
     stars_choices = [
-        ('1', '1'),
-        ('2', '2'),
-        ('3', '3'),
-        ('4', '4'),
-        ('5', '5'),
+        ('0', 0),
+        ('1', 1),
+        ('2', 2),
+        ('3', 3),
+         ('4', 4),
+         ('5', 5),
     ]
-    stars = models.CharField(choices=stars_choices, max_length=1)
-
+    stars = models.IntegerField(choices=stars_choices, default=0)
+    
+   
     class Meta:
         ordering = ("price",)
         verbose_name = _("Product")
         verbose_name_plural = _("Products")
+       
 
-    def get_absolute_url(self):
-        return reverse("store:product_detail", args=[self.slug])
+  #  def get_absolute_url(self):
+  ##      return reverse("catalog_service:slug", args=[self.slug])
+
 
     def __str__(self):
         return self.name
 
 
 class Opinion(models.Model):
+    opinion_id = models.BigAutoField(primary_key=True)
     product = models.ForeignKey(CatalogItem, on_delete=models.CASCADE)
-    # user_id = models.ForeignKey(CatalogItem, on_delete=models.CASCADE)
-    text = models.CharField(max_length=500)
+   # user_id = models.ForeignKey(CatalogItem, on_delete=models.CASCADE)
+    text = models.CharField(max_length = 500)
     stars_choices = [
-        ('1', '1'),
-        ('2', '2'),
-        ('3', '3'),
-        ('4', '4'),
-        ('5', '5'),
+       
+        ('1', 1),
+        ('2', 2),
+        ('3', 3),
+         ('4',4),
+         ('5',5),
     ]
-    stars = models.CharField(choices=stars_choices, max_length=1)
+    stars = models.IntegerField(choices=stars_choices)
+    
+   
