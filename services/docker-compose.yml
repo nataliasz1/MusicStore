@@ -6,10 +6,10 @@ services:
     build: ./catalog
     command: bash -c "python3 ./manage.py makemigrations &&
                       python3 ./manage.py migrate &&
-                      python manage.py createsuperuser --noinput --email admin@admin.com &&
+                      python manage.py createsuperuser --noinput --username admin --email admin@admin.com &&
                       gunicorn api.wsgi:application --bind 0.0.0.0:8002"
-    expose:
-      - 8002
+    ports:
+      - 8002:8002
     restart: always
     environment:
       DJANGO_SUPERUSER_PASSWORD: admin
@@ -25,6 +25,21 @@ services:
                       gunicorn api.wsgi:application --bind 0.0.0.0:8003"
     expose:
       - 8003
+    restart: always
+    environment:
+      DJANGO_SUPERUSER_PASSWORD: admin
+    networks:
+      - backend
+
+  basket-web:
+    image: basket-web:latest
+    build: ./basket
+    command: bash -c "python3 ./manage.py makemigrations &&
+                      python3 ./manage.py migrate &&
+                      python manage.py createsuperuser --noinput --username admin --email admin@admin.com &&
+                      gunicorn api.wsgi:application --bind 0.0.0.0:8004"
+    expose:
+      - 8004
     restart: always
     environment:
       DJANGO_SUPERUSER_PASSWORD: admin
