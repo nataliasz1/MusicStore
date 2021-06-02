@@ -151,13 +151,3 @@ def getOpinionsPerUser(request):
         else:
             return Response( status = 404)
 
-
-class ProductImageList(APIView):
-    
-    def get(self, request, catalog_item_id):
-        item = CatalogItem.objects.get(catalog_item_id=catalog_item_id)
-        images = item.images.all()
-        serial = ProductImageSerializer(images, many=True)
-        return Response(serial.data, status=100)
-
- 
