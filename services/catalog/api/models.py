@@ -70,7 +70,7 @@ class CatalogItem(models.Model):
 class Opinion(models.Model):
     opinion_id = models.BigAutoField(primary_key=True)
     product = models.ForeignKey(CatalogItem, on_delete=models.CASCADE)
-   # user_id = models.ForeignKey(CatalogItem, on_delete=models.CASCADE)
+    user_id = models.CharField(max_length=200)
     text = models.CharField(max_length = 500)
     stars_choices = [
        

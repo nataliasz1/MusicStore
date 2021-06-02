@@ -27,16 +27,17 @@ urlpatterns = [
   #  path('', views.index, name = 'index'),
    # path('', include(router.urls)),
   #  path('/api', include(router.urls)),
-    path("", views.CatalogViewSet.as_view()),
-    path("product/<slug:slug>", views.showItem),
-     path("category/<slug:slug>", views.showCategoryItems),
+    path("", views.getItems),
+    path("product/<slug:slug>", views.getItem),
+    path("categories/", views.getCategories),
+     path("category/<slug:slug>", views.getCategoryItems),
      path("product/basket/", views.addToBasket),
      path("opinion/add/", views.addOpinion),
-     path("opinion/", views.getOpinion),
+     path("opinionProd/", views.getOpinionsPerProduct),
+     path("opinionId/", views.getOpinionPerId),
+     path("opinionUsr/", views.getOpinionsPerUser),
 
-  #  path('catalog', views.catalog, name= 'catalog'),
-    path('profile', views.profile, name= 'profile'),
-    path('login', views.login, name= 'login'),
+
    
 
 ]

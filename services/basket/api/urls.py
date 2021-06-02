@@ -19,7 +19,9 @@ from . import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path("basket/add/", views.add_product),
-    path("basket/remove/", views.remove_product),
-    path("basket/", views.basket)
+    path("basket/add/", views.addProduct),
+    path("basket/change/", views.changeQuantity),
+    path("basket/removeItem/", views.removeItem),
+    path("basket/", views.basket),
+    path("basket/remove/", views.removeBasket)
 ]

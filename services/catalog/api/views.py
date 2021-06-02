@@ -8,35 +8,23 @@ from django.shortcuts import get_object_or_404, render
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from statistics import median
-
-
-def index(request):
-    return HttpResponse("homepage")
-
-def login(request):
-    return HttpResponse("login page")
-
-def profile(request):
-    return HttpResponse('profile page')
-
-def catalog(request):
-    return HttpResponse('catalog page')
-
-
-class HomeView(APIView):  
-
- def get(self, request, format=None):
-    return JsonResponse({"message":
-    'HELLO WORLD FROM DJANGO AND DOCKER'}) 
-
-
-class CatalogViewSet(generics.ListAPIView):
-    queryset = CatalogItem.objects.all().order_by('name')
-    serializer_class = CatalogItemSerializer
+import uuid 
 
 
 @api_view(http_method_names=["GET"])
-def showItem(request, slug):
+def getItems(request):
+    if request.method == 'GET':
+        queryset = CatalogItem.objects.all()
+        if queryset.count() != 0 :
+            serializer_class = CatalogItemSerializer(queryset, many=True)
+
+            return Response(serializer_class.data, status = 200)
+        else:
+            return Response( status = 404)
+
+
+@api_view(http_method_names=["GET"])
+def getItem(request, slug):
     if request.method == 'GET':
         lookup_field = 'slug'        
         queryset = CatalogItem.objects.filter(slug=slug)
@@ -46,10 +34,19 @@ def showItem(request, slug):
         else:
             return Response( status = 404)
         
+@api_view(http_method_names=["GET"])
+def getCategories(request):
+    if request.method == 'GET':
+        queryset = Category.objects.all()
+        if queryset.count() != 0 :
+            serializer_class = CategorySerializer(queryset, many=True)
 
+            return Response(serializer_class.data, status = 200)
+        else:
+            return Response( status = 404)
 
 @api_view(http_method_names=["GET"])
-def showCategoryItems(request, slug):
+def getCategoryItems(request, slug):
     if request.method == 'GET':
         lookup_field = 'slug'        
         queryset = Category.objects.filter(slug=slug)
@@ -77,16 +74,18 @@ def addToBasket(request):
         else:
             return Response( {"message": "Not found"}, status = 404)
 
-    
+
 
 @api_view(http_method_names=["POST"])
 def addOpinion(request):
-    
-    
+    user_id = request.user
+    if user_id == None:
+        user_id = uuid
     opinion = Opinion()
     opinion.product_id = request.query_params.get("prod_id")
     opinion.text = request.data['text']
     opinion.stars = request.data['stars']
+    opinion.user_id = user_id
     opinion.save()
     querysetItem = CatalogItem.objects.filter(catalog_item_id=request.query_params.get("prod_id"))
     querysetOpinion = Opinion.objects.filter(product_id=request.query_params.get("prod_id"))
@@ -103,9 +102,9 @@ def addOpinion(request):
 
 
 @api_view(http_method_names=["GET"])
-def getOpinion(request):
-    if request.method == 'GET':
-        queryset = Opinion.objects.filter(product_id=request.query_params.get("prod_id"))
+def getOpinionsPerProduct(request):
+    if request.method == 'GET':  
+        queryset = Opinion.objects.filter(product=request.query_params.get("prod_id"))
         if queryset.count() != 0 :
             serializer_class = OpinionSerializer(queryset, many=True)
 
@@ -114,5 +113,33 @@ def getOpinion(request):
             return Response( status = 404)
         
 
+@api_view(http_method_names=["GET"])
+def getOpinionPerId(request):
+    if request.method == 'GET':
+        queryset = Opinion.objects.filter(opinion_id=request.query_params.get("id"))
+        if queryset.count() != 0 :
+            serializer_class = OpinionSerializer(queryset, many=True)
+
+            return Response(serializer_class.data, status = 200)
+        else:
 
 
+
+            return Response( status = 404)
+
+
+@api_view(http_method_names=["GET"])
+def getOpinionsPerUser(request):
+    if request.method == 'GET':
+        queryset = Opinion.objects.filter(user_id=request.query_params.get("usr_id"))
+        if queryset.count() != 0 :
+            serializer_class = OpinionSerializer(queryset, many=True)
+
+            return Response(serializer_class.data, status = 200)
+        else:
+            return Response( status = 404)
+
+
+#TODO
+#pojedyncza opinia 
+# get na kategorie , produkty

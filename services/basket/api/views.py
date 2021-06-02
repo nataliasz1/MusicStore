@@ -12,7 +12,7 @@ import uuid
 
 
 @api_view(http_method_names=["POST"])
-def add_product(request):
+def addProduct(request):
     user_id = request.user
     if user_id == None:
         user_id = uuid
@@ -66,7 +66,7 @@ def add_product(request):
             return Response(status = 200)
 
 @api_view(http_method_names=["POST"])
-def remove_product(request):
+def removeItem(request):
     user_id = request.user
     if user_id == None:
         return Response(status=400)
@@ -79,10 +79,22 @@ def remove_product(request):
         basket_item.delete()
         
         return Response(status = 200)
+
+
+@api_view(http_method_names=["POST"])
+def removeBasket(request):
+    user_id = request.user
+    if user_id == None:
+        return Response(status=400)
+    basket = BasketSession.objects.filter(user_id=user_id, status='open')
+    if basket.count() != 0:
+        basket.delete()
+        
+        return Response(status = 200)
         
 
 @api_view(http_method_names=["POST"])
-def change_quantity(request):
+def changeQuantity(request):
     user_id = request.user
     if user_id == None:
         return Response(status=400)
@@ -135,6 +147,3 @@ def basket(request):
 }
 '''
 
-
-
-   

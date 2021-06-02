@@ -13,7 +13,7 @@ class CatalogItemSerializer(serializers.ModelSerializer):
 class OpinionSerializer(serializers.ModelSerializer):
     class Meta:
         model = Opinion
-        fields = ('opinion_id', 'product', 'text', 'stars')
+        fields = ('opinion_id', 'product', 'user_id', 'text', 'stars')
 
 
 class CategorySerializer(serializers.ModelSerializer):
