@@ -36,6 +36,7 @@ urlpatterns = [
      path("opinionProd/", views.getOpinionsPerProduct),
      path("opinionId/", views.getOpinionPerId),
      path("opinionUsr/", views.getOpinionsPerUser),
+     path('product/images/<int:catalog_item_id>/', views.ProductImageList().as_view()),
 
 
    

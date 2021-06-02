@@ -83,3 +83,8 @@ class Opinion(models.Model):
     stars = models.IntegerField(choices=stars_choices)
     
    
+class ProductImage(models.Model):
+    image_id = models.BigAutoField(primary_key=True)
+    catalog_item_id = models.ForeignKey(CatalogItem, related_name='images', on_delete=models.CASCADE)
+    file = models.CharField(max_length=200)
+    added = models.DateTimeField(auto_now_add=True)

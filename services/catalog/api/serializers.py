@@ -1,12 +1,19 @@
 from rest_framework import serializers
 
-from .models import CatalogItem, Opinion, Category
+from .models import CatalogItem, Opinion, Category, ProductImage
+
+class ProductImageSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ProductImage
+        fields = "__all__"
+
 
 class CatalogItemSerializer(serializers.ModelSerializer):
+    images = ProductImageSerializer(many=True)
     class Meta:
         model = CatalogItem
-        fields = ('catalog_item_id', 'name', 'description', 'price', 'quantity', 'stars', 'category', 'slug')
-       # fields = ('catalog_item_id')
+        fields = ('catalog_item_id', 'name', 'description', 'price', 'quantity', 'stars', 'category', 'slug', 'images')
+       
         
  
 

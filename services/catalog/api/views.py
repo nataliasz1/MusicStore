@@ -1,7 +1,7 @@
 from django.http import HttpResponse
 from rest_framework import views, viewsets, generics
 from rest_framework.views import APIView
-from .serializers import CatalogItemSerializer, CategorySerializer, OpinionSerializer
+from .serializers import CatalogItemSerializer, CategorySerializer, OpinionSerializer, ProductImageSerializer
 from .models import CatalogItem, Category, Opinion
 from django.http import JsonResponse  
 from django.shortcuts import get_object_or_404, render
@@ -9,6 +9,17 @@ from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from statistics import median
 import uuid 
+import pyrebase
+import json
+
+conf = ''
+
+with open("/Users/nataliaszakiel/Desktop/magisterka/MusicStore/services/catalog/firebase.json", "r") as read_file:
+    j = json.load(read_file)
+
+config = j
+firebase = pyrebase.initialize_app(config)
+storage = firebase.storage()
 
 
 @api_view(http_method_names=["GET"])
@@ -30,6 +41,7 @@ def getItem(request, slug):
         queryset = CatalogItem.objects.filter(slug=slug)
         if queryset.count() != 0 :
             serializer_class = CatalogItemSerializer(queryset, many=True)
+            
             return Response(serializer_class.data, status = 200)
         else:
             return Response( status = 404)
@@ -140,6 +152,12 @@ def getOpinionsPerUser(request):
             return Response( status = 404)
 
 
-#TODO
-#pojedyncza opinia 
-# get na kategorie , produkty
+class ProductImageList(APIView):
+    
+    def get(self, request, catalog_item_id):
+        item = CatalogItem.objects.get(catalog_item_id=catalog_item_id)
+        images = item.images.all()
+        serial = ProductImageSerializer(images, many=True)
+        return Response(serial.data, status=100)
+
+ 
