@@ -27,7 +27,7 @@ export default {
     }
   },
   mounted() {
-    axios.get('http://127.0.0.1:9090/api/catalog/').then(
+    axios.get('/api/catalog/').then(
         response => {
           this.products = response.data;
           console.log(response.data)

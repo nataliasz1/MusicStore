@@ -117,7 +117,7 @@ export default {
       });
     },
     addToCart: function (product) {
-      axios.post('http://127.0.0.1:9090/api/basket/basket/add/', {product}).then(
+      axios.post('/api/basket/basket/add/', {product}).then(
           response => {
             console.log(response)
           }
@@ -126,13 +126,13 @@ export default {
   },
   mounted() {
     this.product = null;
-    axios.get('http://127.0.0.1:9090/api/catalog/product/' + this.$route.params.slug).then(
+    axios.get('/api/catalog/product/' + this.$route.params.slug).then(
         response => {
           this.product = response.data[0];
           console.log(response.data[0]);
           this.breadcrumbs[2].text = response.data[0].name
 
-          axios.get('http://127.0.0.1:9090/api/catalog/opinionProd/?prod_id=' + this.product.catalog_item_id).then(
+          axios.get('/api/catalog/opinionProd/?prod_id=' + this.product.catalog_item_id).then(
               response => {
                 this.opinions = response.data;
                 console.log(response.data);

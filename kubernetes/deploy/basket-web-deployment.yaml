@@ -22,6 +22,7 @@ spec:
       creationTimestamp: null
       labels:
         io.kompose.network/backend: "true"
+        io.kompose.network/frontend: "true"
         io.kompose.service: basket-web
     spec:
       containers:

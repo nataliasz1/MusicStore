@@ -35,7 +35,7 @@ export default {
     }
   },
   mounted() {
-    axios.get('http://127.0.0.1:9090/api/basket/basket/').then(
+    axios.get('/api/basket/basket/').then(
         response => {
           this.products = response.data;
           console.log(response.data);
