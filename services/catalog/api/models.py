@@ -36,19 +36,20 @@ class Category(MPTTModel):
 class CatalogItem(models.Model):
     catalog_item_id = models.BigAutoField(primary_key=True)
     name = models.CharField(max_length = 50)
-    description = models.CharField(max_length = 500)
+    description = models.CharField(max_length = 500, null=True, blank=True)
+    description_long = models.TextField(null=True, blank=True)
     price = models.FloatField()
     quantity = models.IntegerField()
-    slug = models.SlugField(max_length=255)
+    slug = models.SlugField(null=True, blank=True)
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
   #  category = models.ForeignKey(Category, on_delete=models.RESTRICT)
     stars_choices = [
-        ('0', 0),
-        ('1', 1),
-        ('2', 2),
-        ('3', 3),
-         ('4', 4),
-         ('5', 5),
+        (0, 0),
+        (1, 1),
+        (2, 2),
+        (3, 3),
+        (4, 4),
+        (5, 5),
     ]
     stars = models.IntegerField(choices=stars_choices, default=0)
     
@@ -66,6 +67,10 @@ class CatalogItem(models.Model):
     def __str__(self):
         return self.name
 
+    """ def save(self, *args, **kwargs):
+        self.slug = self.name + '' + self.catalog_item_id
+        super(CatalogItem, self).save(*args, **kwargs)
+ """
 
 class Opinion(models.Model):
     opinion_id = models.BigAutoField(primary_key=True)
@@ -74,11 +79,12 @@ class Opinion(models.Model):
     text = models.CharField(max_length = 500)
     stars_choices = [
        
-        ('1', 1),
-        ('2', 2),
-        ('3', 3),
-         ('4',4),
-         ('5',5),
+        (0, 0),
+        (1, 1),
+        (2, 2),
+        (3, 3),
+        (4, 4),
+        (5, 5),
     ]
     stars = models.IntegerField(choices=stars_choices)
     

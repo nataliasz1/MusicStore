@@ -31,7 +31,7 @@ def getItems(request):
 
             return Response(serializer_class.data, status = 200)
         else:
-            return Response( status = 404)
+            return Response( status = 200)
 
 
 @api_view(http_method_names=["GET"])
@@ -44,7 +44,7 @@ def getItem(request, slug):
             
             return Response(serializer_class.data, status = 200)
         else:
-            return Response( status = 404)
+            return Response( status = 200)
         
 @api_view(http_method_names=["GET"])
 def getCategories(request):
@@ -94,13 +94,14 @@ def addOpinion(request):
     if user_id == None:
         user_id = uuid
     opinion = Opinion()
-    opinion.product_id = request.query_params.get("prod_id")
+    opinion.product_id = request.data["prod_id"]
     opinion.text = request.data['text']
     opinion.stars = request.data['stars']
     opinion.user_id = user_id
     opinion.save()
-    querysetItem = CatalogItem.objects.filter(catalog_item_id=request.query_params.get("prod_id"))
-    querysetOpinion = Opinion.objects.filter(product_id=request.query_params.get("prod_id"))
+    querysetItem = CatalogItem.objects.filter(catalog_item_id=request.data["prod_id"])
+    print(request.data["prod_id"])
+    querysetOpinion = Opinion.objects.filter(product_id=request.data["prod_id"])
     print(querysetOpinion.count())
     list_med = []
     for o in querysetOpinion:

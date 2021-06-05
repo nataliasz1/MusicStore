@@ -121,7 +121,7 @@ def basket(request):
     queryset = BasketSession.objects.filter(user_id=user_id, status='open')
     
     basket_session_serializer = BasketSessionSerializer(queryset, many=True) 
-    print(basket_session_serializer.data[0]['basket_id'])
+    
     if queryset.count() == 0:
         return Response( status = 404)
     else :
