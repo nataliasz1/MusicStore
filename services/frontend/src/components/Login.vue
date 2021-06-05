@@ -25,7 +25,7 @@ export default {
         this.$session.start();
       }
       axios.defaults.withCredentials = true;
-      axios.post('http://127.0.0.1:8003/rest-auth/login/', {
+      axios.post('http://127.0.0.1:9090/api/user/rest-auth/login/', {
         "username": "admin",
         "email": "admin@admin.com",
         "password": "admin"
@@ -34,7 +34,7 @@ export default {
             console.log(response.data);
             if (response.data.key) {
               this.$session.set('key', response.data.key)
-              // axios.get('http://127.0.0.1:8003/rest-auth/user').then(
+              // axios.get('http://127.0.0.1:9090/api/user/rest-auth/user/').then(
               //     response => {console.log(response.data)}
               // )
             } else {

@@ -59,7 +59,7 @@ export default {
     }
   },
   mounted() {
-    axios.get('http://127.0.0.1:8002/categories').then(
+    axios.get('http://127.0.0.1:9090/api/catalog/categories/').then(
         response => {
           this.categories = response.data;
           console.log(response.data)

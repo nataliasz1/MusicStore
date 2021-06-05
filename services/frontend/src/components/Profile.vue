@@ -56,7 +56,7 @@ export default {
   //     this.$router.push('login');
   //   }
   //   else {
-  //     axios.get('https://127.0.0.1:8003/rest-auth/user/', { headers: { 'Authorization': "Token " + this.$session.get("key") } }).then(
+  //     axios.get('https://127.0.0.1:9090/api/user/rest-auth/user/', { headers: { 'Authorization': "Token " + this.$session.get("key") } }).then(
   //         response => {console.log(response.data)}
   //     )
   //   }

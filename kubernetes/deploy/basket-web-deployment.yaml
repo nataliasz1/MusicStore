@@ -6,13 +6,13 @@ metadata:
     kompose.version: 1.21.0 (992df58d8)
   creationTimestamp: null
   labels:
-    io.kompose.service: catalog-web
-  name: catalog-web
+    io.kompose.service: basket-web
+  name: basket-web
 spec:
   replicas: 1
   selector:
     matchLabels:
-      io.kompose.service: catalog-web
+      io.kompose.service: basket-web
   strategy: {}
   template:
     metadata:
@@ -22,7 +22,7 @@ spec:
       creationTimestamp: null
       labels:
         io.kompose.network/backend: "true"
-        io.kompose.service: catalog-web
+        io.kompose.service: basket-web
     spec:
       containers:
       - args:
@@ -30,15 +30,15 @@ spec:
         - -c
         - python3 ./manage.py makemigrations && python3 ./manage.py migrate && python
           manage.py createsuperuser --noinput --username admin --email admin@admin.com
-          && gunicorn api.wsgi:application --bind 0.0.0.0:8002
+          && gunicorn api.wsgi:application --bind 0.0.0.0:8004
         env:
-          - name: DJANGO_SUPERUSER_PASSWORD
-            value: admin
-        image: catalog-web:latest
+        - name: DJANGO_SUPERUSER_PASSWORD
+          value: admin
+        image: basket-web:latest
         imagePullPolicy: Never
-        name: catalog-web
+        name: basket-web
         ports:
-        - containerPort: 8002
+        - containerPort: 8004
         resources: {}
       restartPolicy: Always
       serviceAccountName: ""
