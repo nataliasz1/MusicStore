@@ -14,7 +14,7 @@ import json
 
 conf = ''
 
-with open("/Users/nataliaszakiel/Desktop/magisterka/MusicStore/services/catalog/firebase.json", "r") as read_file:
+with open("/app/firebase.json", "r") as read_file:
     j = json.load(read_file)
 
 config = j

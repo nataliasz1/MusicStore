@@ -6,12 +6,15 @@ services:
     build: ./catalog
     command: bash -c "python3 ./manage.py makemigrations &&
                       python3 ./manage.py migrate &&
+                      python manage.py createsuperuser --noinput --username admin --email admin@admin.com &&
                       gunicorn api.wsgi:application --bind 0.0.0.0:8002"
-    expose:
-      - 8002
+    ports:
+      - 8002:8002
     restart: always
-    links:
-      - postgres-db
+    environment:
+      DJANGO_SUPERUSER_PASSWORD: admin
+    networks:
+      - backend
 
   user-web:
     image: user-web:latest
@@ -25,29 +28,49 @@ services:
     restart: always
     environment:
       DJANGO_SUPERUSER_PASSWORD: admin
-    links:
-      - postgres-db
+    networks:
+      - backend
+
+  basket-web:
+    image: basket-web:latest
+    build: ./basket
+    command: bash -c "python3 ./manage.py makemigrations &&
+                      python3 ./manage.py migrate &&
+                      python manage.py createsuperuser --noinput --username admin --email admin@admin.com &&
+                      gunicorn api.wsgi:application --bind 0.0.0.0:8004"
+    expose:
+      - 8004
+    restart: always
+    environment:
+      DJANGO_SUPERUSER_PASSWORD: admin
+    networks:
+      - backend
 
   postgres-db:
     image: postgres
     restart: always
     environment:
       POSTGRES_PASSWORD: example
+    networks:
+      - backend
 
   nginx:
     image: services-nginx:latest
     build: ./web
     ports:
       - 9090:80
-    links:
+    networks:
+      - frontend
+      - backend
+
+  vue-frontend:
+    image: vue-frontend:latest
+    build: ./frontend
+    ports:
+      - 8800:80
+    networks:
       - frontend
 
+networks:
   frontend:
-    image: frontend:latest
-    build: ./frontend
-    command: http-server dist -a 0.0.0.0 --port 8800
-    expose:
-      - 8800
-    links:
-      - catalog-web
-      - user-web
+  backend:
