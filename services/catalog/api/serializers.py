@@ -12,7 +12,7 @@ class CatalogItemSerializer(serializers.ModelSerializer):
     images = ProductImageSerializer(many=True)
     class Meta:
         model = CatalogItem
-        fields = ('catalog_item_id', 'name', 'description', 'price', 'quantity', 'stars', 'category', 'slug', 'images')
+        fields = ('catalog_item_id', 'name', 'description', 'description_long', 'price', 'quantity', 'stars', 'category', 'slug', 'images')
        
         
  
