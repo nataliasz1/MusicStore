@@ -1,5 +1,5 @@
 <template>
-  <div class="resultContainer">
+  <div class="result-container">
     <b-card
         bg-variant="light"
         class="mb-3"
@@ -24,7 +24,7 @@
 </template>
 <script>
 export default {
-name: "ProductSearchResult"
+  name: "ProductSearchResult"
 }
 </script>
 

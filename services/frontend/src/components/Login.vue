@@ -6,7 +6,7 @@
       <b-form-input placeholder="Nazwa użytkownika" class="mt-4"></b-form-input>
       <b-form-input placeholder="Hasło" type="password" class="mt-4"></b-form-input>
       <a class="mt-1">Nie pamiętam hasła</a><br>
-      <b-button variant="primary" class="mt-4">ZALOGUJ</b-button>
+      <b-button variant="primary" class="mt-4" @click="login">ZALOGUJ</b-button>
       <br><br>
       <p class="mb-0">Nie masz konta?</p>
       <b-button>ZAREJESTRUJ SIĘ</b-button>
@@ -15,8 +15,35 @@
 </template>
 
 <script>
+import axios from "axios";
+
 export default {
-name: "Login"
+  name: "Login",
+  methods: {
+    login: function () {
+      if (!this.$session.exists()) {
+        this.$session.start();
+      }
+      axios.defaults.withCredentials = true;
+      axios.post('http://127.0.0.1:8003/rest-auth/login/', {
+        "username": "admin",
+        "email": "admin@admin.com",
+        "password": "admin"
+      }).then(
+          response => {
+            console.log(response.data);
+            if (response.data.key) {
+              this.$session.set('key', response.data.key)
+              // axios.get('http://127.0.0.1:8003/rest-auth/user').then(
+              //     response => {console.log(response.data)}
+              // )
+            } else {
+              console.log("key not returned")
+            }
+          }
+      )
+    }
+  }
 }
 </script>
 

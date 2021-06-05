@@ -24,7 +24,8 @@
 
 <script>
 export default {
-name: "CartItem"
+  name: "CartItem",
+  props: ['product']
 }
 </script>
 
@@ -32,9 +33,11 @@ name: "CartItem"
 .cartItemContainer {
 
 }
+
 .cart-item {
 
 }
+
 .cart-item-image {
   height: 150px;
   width: auto;

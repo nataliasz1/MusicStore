@@ -2,24 +2,34 @@
   <div class="catbar-full-container mb-4">
     <b-navbar variant="light" class="shadow">
       <div class="catbar-container">
-          <b-navbar-nav tabs fill>
-            <b-nav-item @click="$router.push('/search')">Dęte</b-nav-item>
-            <b-nav-item @click="$router.push('/search')">Gitary</b-nav-item>
-            <b-nav-item @click="$router.push('/search')">Klawiszowe</b-nav-item>
-            <b-nav-item @click="$router.push('/search')">Nagłośnienie</b-nav-item>
-            <b-nav-item @click="$router.push('/search')">Kable</b-nav-item>
-            <b-nav-item @click="$router.push('/search')">Oświetlenie</b-nav-item>
-            <b-nav-item @click="$router.push('/search')">Perkusyjne</b-nav-item>
-            <b-nav-item @click="$router.push('/search')">Smyczkowe</b-nav-item>
-          </b-navbar-nav>
+        <b-navbar-nav tabs fill>
+          <b-nav-item v-for="category in categories" :key="category.category_id" @click="$router.push('/search')">
+            {{ category.name }}
+          </b-nav-item>
+        </b-navbar-nav>
       </div>
     </b-navbar>
   </div>
 </template>
 
 <script>
+import axios from "axios";
+
 export default {
-name: "CategoryBar"
+  name: "CategoryBar",
+  data: function () {
+    return {
+      categories: []
+    }
+  },
+  mounted() {
+    axios.get('http://127.0.0.1:8002/categories').then(
+        response => {
+          this.categories = response.data;
+          console.log(response.data)
+        }
+    )
+  }
 }
 </script>
 
@@ -27,6 +37,7 @@ name: "CategoryBar"
 .catbar-full-container {
   margin-top: 117px;
 }
+
 .catbar-container {
   margin: auto;
   width: 1600px;

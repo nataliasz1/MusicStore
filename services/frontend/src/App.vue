@@ -33,13 +33,13 @@ export default {
   destroyed() {
     window.removeEventListener('scroll', this.onScroll);
   },
-  data: function() {
+  data: function () {
     return {
       isScrolled: false
     }
   },
   methods: {
-    onScroll(){
+    onScroll() {
       this.isScrolled = document.body.scrollTop > 80 || document.documentElement.scrollTop > 80;
     }
   }
@@ -71,7 +71,9 @@ html {
 .fade-enter-active, .fade-leave-active {
   transition: opacity 0.3s ease;
 }
-.fade-enter-from, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+
+.fade-enter-from, .fade-leave-to /* .fade-leave-active below version 2.1.8 */
+{
   opacity: 0;
 }
 </style>

@@ -9,7 +9,7 @@
     </div>
     <p class="text-left ml-2 h2">Promowane produkty</p>
     <div class="products-container">
-      <ProductBox v-for="product in products" :key="product.id" v-bind:product="product"></ProductBox>
+      <ProductBox v-for="product in products" :key="product.catalog_item_id" v-bind:product="product"></ProductBox>
     </div>
   </div>
 </template>
@@ -17,17 +17,21 @@
 <script>
 import ProductBox from "@/components/ProductBox";
 import axios from "axios";
+
 export default {
-name: "Home",
+  name: "Home",
   components: {ProductBox},
   data: function () {
     return {
-      products:  []
+      products: []
     }
   },
   mounted() {
-    axios.get('http://127.0.0.1:8002/catalog').then(
-        response => {this.products = response.data; console.log(response)}
+    axios.get('http://127.0.0.1:8002').then(
+        response => {
+          this.products = response.data;
+          console.log(response.data)
+        }
     )
   }
 }
@@ -50,6 +54,7 @@ name: "Home",
   flex-direction: row;
   flex-wrap: wrap;
 }
+
 .daily-deal-banner {
   background-image: url("https://i.imgur.com/Iy7qaP6.jpg");
   background-size: cover;

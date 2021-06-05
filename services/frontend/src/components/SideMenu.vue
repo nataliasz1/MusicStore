@@ -1,26 +1,26 @@
 <template>
-<div class="navContainer">
-  <p class="menuLink">COUNTRY</p>
-  <p class="menuLink">ROADS</p>
-  <p class="menuLink">TAKE</p>
-  <p class="menuLink">ME</p>
-  <p class="menuLink">HOME</p>
-  <p class="menuLink">TO</p>
-  <p class="menuLink">THE</p>
-  <p class="menuLink">PLACE</p>
-  <p class="menuLink">I</p>
-  <p class="menuLink">BELONG</p>
-</div>
+  <div class="nav-container">
+    <p class="menu-link">COUNTRY</p>
+    <p class="menu-link">ROADS</p>
+    <p class="menu-link">TAKE</p>
+    <p class="menu-link">ME</p>
+    <p class="menu-link">HOME</p>
+    <p class="menu-link">TO</p>
+    <p class="menu-link">THE</p>
+    <p class="menu-link">PLACE</p>
+    <p class="menu-link">I</p>
+    <p class="menu-link">BELONG</p>
+  </div>
 </template>
 
 <script>
 export default {
-name: "SideMenu"
+  name: "SideMenu"
 }
 </script>
 
 <style scoped>
-.navContainer {
+.nav-container {
   width: 300px;
   min-height: 100%;
   float: left;
@@ -35,7 +35,7 @@ name: "SideMenu"
   border-width: 0px 1px 0px 0px;
 }
 
-.menuLink {
+.menu-link {
   margin-top: 8px;
   color: BLACK;
   font-size: 25px;
@@ -44,19 +44,23 @@ name: "SideMenu"
 p {
   line-height: 25px;
 }
+
 /* Enter and leave animations can use different */
 /* durations and timing functions.              */
 .slide-enter-active {
   transition: 1s;
 }
+
 .slide-leave-active {
   transition: 1s;
 }
+
 .slide-enter {
   transform: translate(-100%, 0);
   background: #007BFF;
 }
-.slide-leave-to{
+
+.slide-leave-to {
   transform: translate(-100%, 0);
   background: #007BFF;
 }

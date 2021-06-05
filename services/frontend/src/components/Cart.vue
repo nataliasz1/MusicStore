@@ -1,44 +1,55 @@
 <template>
-  <div class="cartContainer">
+  <div class="cart-container">
     <b-breadcrumb :items="breadcrumbs"></b-breadcrumb>
     <b-row no-gutters>
       <b-col md="9">
-        <CartItem v-for="index in 5" :key="index"></CartItem>
+        <CartItem v-for="product in products" :key="product.slug" v-bind:product="product"></CartItem>
       </b-col>
       <b-col md="3">
-        <p class="h3">Do zapłaty: {{ 999.99 * 5 }} PLN</p>
+        <p class="h3">Do zapłaty: {{ totalPrice }} PLN</p>
         <b-button variant="primary">Kupuję i płacę</b-button>
       </b-col>
     </b-row>
-<!--    <b-jumbotron lead="Twój koszyk jest pusty">-->
-<!--      <p>pls kup coś</p>-->
-<!--    </b-jumbotron>-->
   </div>
 </template>
-
 <script>
 import CartItem from "@/components/CartItem";
+import axios from "axios";
+
 export default {
-name: "Cart",
+  name: "Cart",
   components: {CartItem},
   data: function () {
     return {
       breadcrumbs: [
         {
           text: 'Home',
-          href: '#'
+          to: '/'
         },
         {
           text: 'Koszyk',
           href: '#'
-        }]
+        }],
+      products: [],
+      totalPrice: 0
     }
+  },
+  mounted() {
+    axios.get('http://127.0.0.1:8004/basket').then(
+        response => {
+          this.products = response.data;
+          console.log(response.data);
+          this.totalPrice = 0;
+          for (var product in this.products) {
+            this.totalPrice += product.price;
+          }
+        }
+    )
   }
 }
 </script>
-
 <style scoped>
-.cartContainer {
+.cart-container {
   max-width: 1400px;
   margin-left: auto;
   margin-right: auto;
