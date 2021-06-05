@@ -1,9 +1,5 @@
 from django.db import models
-from mptt.models import MPTTModel, TreeForeignKey
 from django.utils.translation import gettext_lazy as _
-from django.urls import reverse
-
-
 
 
 class BasketSession(models.Model):
@@ -12,20 +8,19 @@ class BasketSession(models.Model):
     status_choices = [
         ('open', 'open'),
         ('closed', 'closed'),
-        
-    ]
-    status = models.CharField(choices=status_choices, max_length = 6)
 
+    ]
+    status = models.CharField(choices=status_choices, max_length=6)
 
     class Meta:
         ordering = ("basket_id",)
         verbose_name = _("BasketSession")
         verbose_name_plural = _("BasketSession")
-    
+
 
 class BasketItem(models.Model):
     basket_item_id = models.BigAutoField(primary_key=True)
-    basket_session_id = models.ForeignKey(BasketSession, on_delete=models.CASCADE) 
+    basket_session_id = models.ForeignKey(BasketSession, on_delete=models.CASCADE)
     catalog_item_id = models.IntegerField()
     quantity = models.IntegerField()
 

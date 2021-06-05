@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'corsheaders',
     'rest_framework',
     'api',
+    'django_extensions',
 ]
 
 MIDDLEWARE = [
@@ -76,44 +77,38 @@ REST_FRAMEWORK = {
 	'UNAUTHENTICATED_USER': None,
     'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.AllowAny',
-        
+
     ]
 }
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
-POSTGRES_HOST = os.environ.get('POSTGRES_HOST', default="localhost")
-print(POSTGRES_HOST)
-POSTGRES_DB = os.environ.get('POSTGRES_DB', default="catalog")
-print(POSTGRES_DB)
-POSTGRES_USER = os.environ.get('POSTGRES_USER', default="nataliaszakiel")
-print(POSTGRES_USER)
-POSTGRES_PASSWORD = os.environ.get('POSTGRES_PASSWORD', default="erasms")
-print(POSTGRES_PASSWORD)
+# TODO – Move all creads to .env file
+POSTGRES_HOST = os.environ.get('POSTGRES_HOST', default="ec2-34-255-134-200.eu-west-1.compute.amazonaws.com")
+POSTGRES_DB = os.environ.get('POSTGRES_DB', default="des7qfk535algp")
+POSTGRES_USER = os.environ.get('POSTGRES_USER', default="zgfyfjmlltabpf")
+POSTGRES_PASSWORD = os.environ.get('POSTGRES_PASSWORD', default="d4eda48129dcd86170fce25b4d0f6f5f89d132344b3a3a511f780611f8e778ce")
+
+print(f'POSTGRES_HOST: {POSTGRES_HOST}\n'
+      f'POSTGRES_DB: {POSTGRES_DB}\n',
+      f'POSTGRES_USER: {POSTGRES_USER}\n'
+      f'POSTGRES_PASSWORD: {POSTGRES_PASSWORD}\n')
 
 # Database
 # https://docs.djangoproject.com/en/2.0/ref/settings/#databases
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.postgresql',
-#         'NAME': POSTGRES_DB,
-#         'USER': POSTGRES_USER,
-#         'PASSWORD': POSTGRES_PASSWORD,
-#         'HOST': POSTGRES_HOST,
-#         'PORT': 5432,
-#     }
-# }
-
-
-
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': POSTGRES_DB,
+        'USER': POSTGRES_USER,
+        'PASSWORD': POSTGRES_PASSWORD,
+        'HOST': POSTGRES_HOST,
+        'PORT': 5432,
     }
 }
 
+FIREBASE_CONFIG_FILE = 'firebase.json'
 
 # Password validation
 # https://docs.djangoproject.com/en/2.0/ref/settings/#auth-password-validators
