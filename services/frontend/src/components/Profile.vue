@@ -22,6 +22,7 @@
           <h5 class="mt-5">Konto</h5>
           <p>Zmień hasło</p>
           <p>Usuń konto</p>
+          <p>Wyloguj</p>
           <h5 class="mt-5">Dane osobowe</h5>
           <p>Adres dostawy</p>
           <p>Dane do faktury</p>
@@ -54,12 +55,11 @@ export default {
   mounted(){
     let self = this;
     if (!this.$session.has("key")) {
-      console.log("no key");
       this.$router.push('/login');
     }
     else {
       console.log(this.$session.get("key"));
-      axios.get('/api/user/rest-auth/user/', {withCredentials: true}).then(
+      axios.get('/api/user/rest-auth/user/', { headers: { 'Authorization': "Token " + this.$session.get("key") }, withCredentials: true }).then(
           response => {
             console.log(response.data);
             this.user = response.data;
@@ -72,18 +72,6 @@ export default {
       })
     }
   }
-
-  // mounted() {
-  //   axios.defaults.withCredentials = true;
-  //   if(!this.$session.has("key")){
-  //     this.$router.push('login');
-  //   }
-  //   else {
-  //     axios.get('/api/user/rest-auth/user/', { headers: { 'Authorization': "Token " + this.$session.get("key") } }).then(
-  //         response => {console.log(response.data)}
-  //     )
-  //   }
-  // }
 }
 </script>
 

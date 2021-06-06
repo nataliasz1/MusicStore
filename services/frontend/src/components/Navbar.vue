@@ -66,14 +66,13 @@ export default {
           console.log(response.data)
         }
     )
-    axios.get('/api/user/rest-auth/user/', {withCredentials: true}).then(
+    axios.get('/api/user/rest-auth/user/', {withCredentials: true, headers: { 'Authorization': "Token " + this.$session.get("key") }}).then(
         response => {
           console.log(response.data);
         }
     ).catch(function (error){
       console.log(error);
       self.$session.remove("key");
-      console.log(self.$session.get("key"));
     });
   }
 }

@@ -11,6 +11,7 @@ import SearchResults from "@/components/SearchResults";
 import Login from "@/components/Login";
 import VueSession from 'vue-session'
 import Profile from "@/components/Profile";
+import Payment from "./components/Payment";
 
 Vue.use(VueSession)
 Vue.use(BootstrapVue);
@@ -24,7 +25,8 @@ const routes = [
     {path: '/cart', component: Cart},
     {path: '/search', component: SearchResults},
     {path: '/login', component: Login},
-    {path: '/profile', component: Profile}
+    {path: '/profile', component: Profile},
+    {path: '/pay', component: Payment}
 ]
 
 const router = new VueRouter(
