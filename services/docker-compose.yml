@@ -1,0 +1,83 @@
+version: '3.7'
+
+services:
+  catalog-web:
+    image: catalog-web:latest
+    build: ./catalog
+    command: bash -c "python3 ./manage.py makemigrations &&
+                      python3 ./manage.py migrate &&
+                      gunicorn api.wsgi:application --bind 0.0.0.0:8002"
+    ports:
+      - 8002:8002
+    restart: always
+    environment:
+      DJANGO_SUPERUSER_PASSWORD: admin
+    networks:
+      - backend
+      - frontend
+
+  user-web:
+    image: user-web:latest
+    build: ./user
+    command: bash -c "python3 ./manage.py makemigrations &&
+                      python3 ./manage.py migrate &&
+                      gunicorn api.wsgi:application --bind 0.0.0.0:8003"
+    ports:
+      - 8003:8003
+    restart: always
+    environment:
+      DJANGO_SUPERUSER_PASSWORD: admin
+    networks:
+      - backend
+      - frontend
+
+  basket-web:
+    image: basket-web:latest
+    build: ./basket
+    command: bash -c "python3 ./manage.py makemigrations &&
+                      python3 ./manage.py migrate &&
+                      gunicorn api.wsgi:application --bind 0.0.0.0:8004"
+    ports:
+      - 8004:8004
+    restart: always
+    environment:
+      DJANGO_SUPERUSER_PASSWORD: admin
+    networks:
+      - backend
+      - frontend
+
+  order-web:
+    image: order-web:latest
+    build: ./order
+    command: bash -c "python3 ./manage.py makemigrations &&
+      python3 ./manage.py migrate &&
+      python manage.py createsuperuser --noinput --username admin --email admin@admin.com &&
+      gunicorn api.wsgi:application --bind 0.0.0.0:8005"
+    ports:
+      - 8005:8005
+    restart: always
+    environment:
+      DJANGO_SUPERUSER_PASSWORD: admin
+    networks:
+      - backend
+      - frontend
+
+#  postgres-db:
+#   image: postgres
+#   restart: always
+#   environment:
+#     POSTGRES_PASSWORD: example
+#   networks:
+#     - backend
+
+  vue-frontend:
+   image: vue-frontend:latest
+   build: ./frontend
+   ports:
+     - 8800:80
+   networks:
+     - frontend
+
+networks:
+  backend:
+  frontend:

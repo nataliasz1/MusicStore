@@ -1,0 +1,46 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: kompose convert
+    kompose.version: 1.21.0 (992df58d8)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: catalog-web
+  name: catalog-web
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: catalog-web
+  strategy: {}
+  template:
+    metadata:
+      annotations:
+        kompose.cmd: kompose convert
+        kompose.version: 1.21.0 (992df58d8)
+      creationTimestamp: null
+      labels:
+        io.kompose.network/backend: "true"
+        io.kompose.network/frontend: "true"
+        io.kompose.service: catalog-web
+    spec:
+      containers:
+      - args:
+        - bash
+        - -c
+        - python3 ./manage.py makemigrations && python3 ./manage.py migrate
+          && gunicorn api.wsgi:application --bind 0.0.0.0:8002
+        env:
+          - name: DJANGO_SUPERUSER_PASSWORD
+            value: admin
+        image: catalog-web:latest
+        imagePullPolicy: Never
+        name: catalog-web
+        ports:
+        - containerPort: 8002
+        resources: {}
+      restartPolicy: Always
+      serviceAccountName: ""
+      volumes: null
+status: {}
