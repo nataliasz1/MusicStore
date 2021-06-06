@@ -15,7 +15,7 @@ import uuid
 def addProduct(request):
     user_id = request.user
     if user_id == None:
-        user_id = uuid
+        user_id = uuid.uuid4()
 
     print(user_id)
     queryset = BasketSession.objects.filter(user_id=user_id, status='open')
@@ -25,6 +25,7 @@ def addProduct(request):
         product = request.data["product_id"]
         
         response = requests.get("http://catalog-web:8002/product/basket/?prod_id=%d" % product).json()
+        print(response)
         if  type(response) is dict:
             return Response(status = 404)
         else : 
@@ -59,7 +60,7 @@ def addProduct(request):
         else : 
             basket_item = BasketItem()
             basket_item.basket_session_id = BasketSession.objects.filter(basket_id=basket_serializer.data[0]['basket_id'], status='open').first()
-            basket_item.catalog_item_id = response['catalog_item_id']
+            basket_item.catalog_item_id = response[0]['catalog_item_id']
             basket_item.quantity = request.data["quantity"]
             basket_item.save()
            
@@ -117,7 +118,7 @@ def changeQuantity(request):
 def basket(request):
     user_id = request.user
     if user_id == None:
-        user_id = uuid
+        user_id = uuid.uuid4()
     queryset = BasketSession.objects.filter(user_id=user_id, status='open')
     
     basket_session_serializer = BasketSessionSerializer(queryset, many=True) 

@@ -29,14 +29,14 @@ export default {
         "username": "admin",
         "email": "admin@admin.com",
         "password": "admin"
-      }).then(
+      }, {withCredentials: true}).then(
           response => {
             console.log(response.data);
             if (response.data.key) {
               this.$session.set('key', response.data.key)
-              // axios.get('/api/user/rest-auth/user/').then(
-              //     response => {console.log(response.data)}
-              // )
+              axios.get('/api/user/rest-auth/user/', {withCredentials: true}).then(
+                  response => {console.log(response.data)}
+              )
             } else {
               console.log("key not returned")
             }

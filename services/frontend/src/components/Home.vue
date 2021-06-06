@@ -3,7 +3,7 @@
     <div class="deal-container">
       <b-jumbotron class="daily-deal-banner" text-variant="white" border-variant="dark">
         <template #header>Okazja dnia</template>
-        <template #lead>Fajne organy</template>
+        <template #lead>Śmieszny ksylofon</template>
         <template #default>Kliknij, by sprawdzić ></template>
       </b-jumbotron>
     </div>
@@ -56,8 +56,9 @@ export default {
 }
 
 .daily-deal-banner {
-  background-image: url("https://i.imgur.com/Iy7qaP6.jpg");
+  background-image: url("../assets/banner.png");
   background-size: cover;
+  background-position: right;
   min-height: 400px;
   text-align: left;
   text-shadow: 5px 5px 5px #000000;

@@ -1,12 +1,31 @@
 <template>
   <div class="footer">
     <p>(C) 2021 Sklep muzyczny ERSMS</p>
+    <b-modal id="modal-cookies" ok-only title="Ta strona wykorzystuje ciasteczka">
+      <p>Nasza witryna stosuje pliki cookies w celu umożliwienia logowania i obsługi profilu użytkownika.
+        Korzystając z tej strony wyrażasz zgodę na zapisywanie tych ciasteczek na Twoim urządzeniu.</p>
+      <p>Brak zgody uniemożliwia poprawne działanie serwisu.</p>
+      <div  class="cookie-modal-image-container">
+        <img class="cookie-modal-image" src="../assets/cookie-monster-cropped.png"/>
+      </div>
+    </b-modal>
   </div>
 </template>
 
 <script>
 export default {
-  name: "Footer"
+  name: "Footer",
+  mounted() {
+    if(!this.$session.has("cookies")){
+      this.$session.set('cookies', false);
+      this.$bvModal.show("modal-cookies");
+    }
+    else {
+      if(this.$session.get("cookies") === false){
+        this.$bvModal.show("modal-cookies");
+      }
+    }
+  }
 }
 </script>
 
@@ -19,5 +38,12 @@ export default {
   bottom: 0px;
   padding: 16px;
   text-align: left;
+}
+.cookie-modal-image {
+  width: 250px;
+}
+.cookie-modal-image-container{
+  width: 100%;
+  text-align: center;
 }
 </style>

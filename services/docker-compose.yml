@@ -49,6 +49,22 @@ services:
       - backend
       - frontend
 
+  order-web:
+    image: order-web:latest
+    build: ./order
+    command: bash -c "python3 ./manage.py makemigrations &&
+      python3 ./manage.py migrate &&
+      python manage.py createsuperuser --noinput --username admin --email admin@admin.com &&
+      gunicorn api.wsgi:application --bind 0.0.0.0:8005"
+    ports:
+      - 8005:8005
+    restart: always
+    environment:
+      DJANGO_SUPERUSER_PASSWORD: admin
+    networks:
+      - backend
+      - frontend
+
   postgres-db:
    image: postgres
    restart: always
