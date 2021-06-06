@@ -92,7 +92,7 @@ def addToBasket(request):
 def addOpinion(request):
     user_id = request.user
     if user_id == None:
-        user_id = uuid
+        user_id = uuid.uuid4()
     opinion = Opinion()
     opinion.product_id = request.data["prod_id"]
     opinion.text = request.data['text']
