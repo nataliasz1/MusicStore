@@ -7,14 +7,14 @@
       </b-col>
       <b-col md="3">
         <p class="h3">Do zapłaty: {{ totalPrice }} PLN</p>
-        <b-button variant="primary">Kupuję i płacę</b-button>
+        <b-button variant="primary" @click="$router.push('/pay')">Kupuję i płacę</b-button>
       </b-col>
     </b-row>
   </div>
 </template>
 <script>
 import CartItem from "@/components/CartItem";
-import axios from "axios";
+// import axios from "axios";
 
 export default {
   name: "Cart",
@@ -35,16 +35,16 @@ export default {
     }
   },
   mounted() {
-    axios.get('/api/basket/basket/').then(
-        response => {
-          this.products = response.data;
-          console.log(response.data);
-          this.totalPrice = 0;
-          for (var product in this.products) {
-            this.totalPrice += product.price;
-          }
-        }
-    )
+    // axios.get('/api/basket/basket/').then(
+    //     response => {
+    //       this.products = response.data;
+    //       console.log(response.data);
+    //       this.totalPrice = 0;
+    //       for (var product in this.products) {
+    //         this.totalPrice += product.price;
+    //       }
+    //     }
+    // )
   }
 }
 </script>

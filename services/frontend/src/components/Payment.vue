@@ -2,6 +2,7 @@
   <div>
     <h4 class="mb-4">Do zapłaty: 1 PLN</h4>
     <div id="paypal-button-container"></div>
+    <b-button variant="danger" @click="$router.push('/cart')">Anuluj</b-button>
   </div>
 </template>
 
