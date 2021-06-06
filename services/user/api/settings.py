@@ -27,7 +27,6 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 
-
 # Application definition
 
 INSTALLED_APPS = [
@@ -88,7 +87,8 @@ WSGI_APPLICATION = 'api.wsgi.application'
 POSTGRES_HOST = os.environ.get('POSTGRES_HOST', default="ec2-34-255-134-200.eu-west-1.compute.amazonaws.com")
 POSTGRES_DB = os.environ.get('POSTGRES_DB', default="dbbf24mg1j6mgt")
 POSTGRES_USER = os.environ.get('POSTGRES_USER', default="auukkodtgpdzsk")
-POSTGRES_PASSWORD = os.environ.get('POSTGRES_PASSWORD', default="c3ecc27dac8ed0b37d5d51f89b17e58054ddefe25854a1cea0cd1faa5a51d398")
+POSTGRES_PASSWORD = os.environ.get('POSTGRES_PASSWORD',
+                                   default="c3ecc27dac8ed0b37d5d51f89b17e58054ddefe25854a1cea0cd1faa5a51d398")
 
 print(f'POSTGRES_HOST: {POSTGRES_HOST}\n'
       f'POSTGRES_DB: {POSTGRES_DB}\n',
@@ -117,14 +117,23 @@ DATABASES = {
 
 AUTH_USER_MODEL = 'api.CustomUser'
 
-#allauth config
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.TokenAuthentication',
+    ],
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.IsAuthenticated',
+    ]
+}
+
+# allauth config
 ACCOUNT_USER_MODEL_USERNAME_FIELD = None
 ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_UNIQUE_EMAIL = True
 ACCOUNT_USERNAME_REQUIRED = False
 ACCOUNT_AUTHENTICATION_METHOD = 'email'
 
-#ACCOUNT_EMAIL_VERIFICATION = 'mandatory'
+# ACCOUNT_EMAIL_VERIFICATION = 'mandatory'
 ACCOUNT_EMAIL_VERIFICATION = 'none'
 ACCOUNT_CONFIRM_EMAIL_ON_GET = True
 ACCOUNT_EMAIL_CONFIRMATION_ANONYMOUS_REDIRECT_URL = '/?verification=1'
@@ -132,7 +141,6 @@ ACCOUNT_EMAIL_CONFIRMATION_AUTHENTICATED_REDIRECT_URL = '/?verification=1'
 SITE_ID = 1
 # for DEBUG purpose mail sent to console
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
-
 
 REST_AUTH_SERIALIZERS = {
     'USER_DETAILS_SERIALIZER': 'api.serializers.UserSerializer',
@@ -156,7 +164,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/2.0/topics/i18n/
 
@@ -170,9 +177,8 @@ USE_L10N = True
 
 USE_TZ = True
 
-CORS_ORIGIN_ALLOW_ALL = True # If this is used then `CORS_ORIGIN_WHITELIST` will not have any effect
+CORS_ORIGIN_ALLOW_ALL = True  # If this is used then `CORS_ORIGIN_WHITELIST` will not have any effect
 CORS_ALLOW_CREDENTIALS = True
-
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.0/howto/static-files/

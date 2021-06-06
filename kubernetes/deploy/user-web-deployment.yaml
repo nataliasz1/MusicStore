@@ -34,8 +34,8 @@ spec:
         env:
         - name: DJANGO_SUPERUSER_PASSWORD
           value: admin
-        image: user-web
-        imagePullPolicy: Never
+        image: ersmsmusicstore.azurecr.io/user-web:latest
+        imagePullPolicy: Always
         name: user-web
         ports:
         - containerPort: 8003
