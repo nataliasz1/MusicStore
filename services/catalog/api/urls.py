@@ -14,30 +14,23 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path, include
+from django.urls import path
+
 from . import views
-from rest_framework import routers
 
-
-#router = routers.DefaultRouter()
-#router.register(r'catalog', views.CatalogItemViewSet.as_view())
+# router = routers.DefaultRouter()
+# router.register(r'catalog', views.CatalogItemViewSet.as_view())
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-  #  path('', views.index, name = 'index'),
-   # path('', include(router.urls)),
-  #  path('/api', include(router.urls)),
     path("", views.getItems),
     path("product/<slug:slug>", views.getItem),
     path("categories/", views.getCategories),
-     path("category/<slug:slug>", views.getCategoryItems),
-     path("product/basket/", views.addToBasket),
-     path("opinion/add/", views.addOpinion),
-     path("opinionProd/", views.getOpinionsPerProduct),
-     path("opinionId/", views.getOpinionPerId),
-     path("opinionUsr/", views.getOpinionsPerUser),
-
-
-   
+    path("category/<slug:slug>", views.getCategoryItems),
+    path("product/basket/", views.addToBasket),
+    path("opinion/add/", views.addOpinion),
+    path("opinionProd/", views.getOpinionsPerProduct),
+    path("opinionId/", views.getOpinionPerId),
+    path("opinionUsr/", views.getOpinionsPerUser),
 
 ]
