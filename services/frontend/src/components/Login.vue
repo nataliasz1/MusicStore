@@ -3,8 +3,8 @@
   <div class="login-container">
     <b-card bg-variant="light" class="login-card text-left">
       <p class="h2">Logowanie</p>
-      <b-form-input placeholder="Nazwa użytkownika" class="mt-4"></b-form-input>
-      <b-form-input placeholder="Hasło" type="password" class="mt-4"></b-form-input>
+      <b-form-input placeholder="Adres e-mail" v-model="username" class="mt-4"></b-form-input>
+      <b-form-input placeholder="Hasło" type="password" v-model="password" class="mt-4"></b-form-input>
       <a class="mt-1">Nie pamiętam hasła</a><br>
       <b-button variant="primary" class="mt-4" @click="login">ZALOGUJ</b-button>
       <br><br>
@@ -19,29 +19,36 @@ import axios from "axios";
 
 export default {
   name: "Login",
+  data: function () {
+    return {
+      username: "",
+      password: ""
+    }
+  },
   methods: {
     login: function () {
       if (!this.$session.exists()) {
         this.$session.start();
       }
-      axios.defaults.withCredentials = true;
       axios.post('/api/user/rest-auth/login/', {
-        "username": "admin",
-        "email": "admin@admin.com",
-        "password": "admin"
+        "email": this.username,
+        "password": this.password
       }, {withCredentials: true}).then(
           response => {
             console.log(response.data);
             if (response.data.key) {
-              this.$session.set('key', response.data.key)
-              axios.get('/api/user/rest-auth/user/', {withCredentials: true}).then(
-                  response => {console.log(response.data)}
-              )
+              this.$session.set('key', response.data.key);
+              this.$router.push("/profile");
             } else {
               console.log("key not returned")
             }
           }
       )
+    }
+  },
+  mounted(){
+    if (this.$session.has("key")) {
+      this.$router.push("/profile");
     }
   }
 }

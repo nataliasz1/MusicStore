@@ -59,12 +59,22 @@ export default {
     }
   },
   mounted() {
+    let self = this;
     axios.get('/api/catalog/categories/').then(
         response => {
           this.categories = response.data;
           console.log(response.data)
         }
     )
+    axios.get('/api/user/rest-auth/user/', {withCredentials: true}).then(
+        response => {
+          console.log(response.data);
+        }
+    ).catch(function (error){
+      console.log(error);
+      self.$session.remove("key");
+      console.log(self.$session.get("key"));
+    });
   }
 }
 </script>

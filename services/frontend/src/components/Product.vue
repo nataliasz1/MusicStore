@@ -117,9 +117,13 @@ export default {
       });
     },
     addToCart: function (product) {
-      axios.post('/api/basket/basket/add/', {product}).then(
+      axios.post('/api/basket/basket/add/', {
+        "product_id": product.catalog_item_id,
+        "quantity": 1
+      }).then(
           response => {
-            console.log(response)
+            console.log(response);
+            this.$router.push('/cart');
           }
       )
     }

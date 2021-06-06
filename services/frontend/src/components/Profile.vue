@@ -5,13 +5,13 @@
       <b-col xl="10">
         <b-card bg-variant="light" title="Moje dane" class="text-left mr-2 mb-4">
           <h5 class="mb-0">Imię</h5>
-          <p class="mb-4">placeholder</p>
+          <p class="mb-4">{{user.first_name}}</p>
           <h5 class="mb-0">Nazwisko</h5>
-          <p class="mb-4">placeholder</p>
+          <p class="mb-4">{{user.last_name}}</p>
           <h5 class="mb-0">Telefon kontaktowy</h5>
-          <p class="mb-4">placeholder</p>
+          <p class="mb-4">{{user.phone}}</p>
           <h5 class="mb-0">Adres e-mail</h5>
-          <p class="mb-4">placeholder</p>
+          <p class="mb-4">{{ user.email }}</p>
         </b-card>
         <b-card bg-variant="light" title="Moje zamówienia" class="text-left mr-2 mb-4">
           <p>placeholder brak zamówień</p>
@@ -33,7 +33,7 @@
 </template>
 
 <script>
-// import axios from "axios";
+import axios from "axios";
 
 export default {
   name: "Profile",
@@ -47,9 +47,32 @@ export default {
         {
           text: 'Profil użytkownika',
           href: '#'
-        }]
+        }],
+      user: null
     }
   },
+  mounted(){
+    let self = this;
+    if (!this.$session.has("key")) {
+      console.log("no key");
+      this.$router.push('/login');
+    }
+    else {
+      console.log(this.$session.get("key"));
+      axios.get('/api/user/rest-auth/user/', {withCredentials: true}).then(
+          response => {
+            console.log(response.data);
+            this.user = response.data;
+          }
+      ).catch(function (error){
+        console.log(error);
+        self.$bvModal.show("modal-profile-auth");
+        self.$session.remove("key");
+        self.$router.push("/login");
+      })
+    }
+  }
+
   // mounted() {
   //   axios.defaults.withCredentials = true;
   //   if(!this.$session.has("key")){
