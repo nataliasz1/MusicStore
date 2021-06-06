@@ -25,8 +25,8 @@ spec:
         io.kompose.service: vue-frontend
     spec:
       containers:
-      - image: vue-frontend:latest
-        imagePullPolicy: Never
+      - image: ersmsmusicstore.azurecr.io/vue-frontend:latest
+        imagePullPolicy: Always
         name: vue-frontend
         ports:
         - containerPort: 80

@@ -34,8 +34,8 @@ spec:
         env:
         - name: DJANGO_SUPERUSER_PASSWORD
           value: admin
-        image: basket-web:latest
-        imagePullPolicy: Never
+        image: ersmsmusicstore.azurecr.io/basket-web:latest
+        imagePullPolicy: Always
         name: basket-web
         ports:
         - containerPort: 8004
