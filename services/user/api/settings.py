@@ -38,17 +38,16 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'corsheaders',
-
     'rest_framework',
     'rest_framework.authtoken',
     'rest_auth',
     'django.contrib.sites',
     'rest_auth.registration',
+    'django_extensions',
     # for email confirm and social login
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
-
     'api'
 ]
 
@@ -85,33 +84,31 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'api.wsgi.application'
 
-POSTGRES_HOST = os.environ.get('POSTGRES_HOST', default="localhost")
-print(POSTGRES_HOST)
-POSTGRES_DB = os.environ.get('POSTGRES_DB', default="users")
-print(POSTGRES_DB)
-POSTGRES_USER = os.environ.get('POSTGRES_USER', default="nataliaszakiel")
-print(POSTGRES_USER)
-POSTGRES_PASSWORD = os.environ.get('POSTGRES_PASSWORD', default="erasms")
-print(POSTGRES_PASSWORD)
+# TODO – Move all creads to .env file
+POSTGRES_HOST = os.environ.get('POSTGRES_HOST', default="ec2-34-255-134-200.eu-west-1.compute.amazonaws.com")
+POSTGRES_DB = os.environ.get('POSTGRES_DB', default="dbbf24mg1j6mgt")
+POSTGRES_USER = os.environ.get('POSTGRES_USER', default="auukkodtgpdzsk")
+POSTGRES_PASSWORD = os.environ.get('POSTGRES_PASSWORD', default="c3ecc27dac8ed0b37d5d51f89b17e58054ddefe25854a1cea0cd1faa5a51d398")
 
-# Database
-# https://docs.djangoproject.com/en/2.0/ref/settings/#databases
+print(f'POSTGRES_HOST: {POSTGRES_HOST}\n'
+      f'POSTGRES_DB: {POSTGRES_DB}\n',
+      f'POSTGRES_USER: {POSTGRES_USER}\n'
+      f'POSTGRES_PASSWORD: {POSTGRES_PASSWORD}\n')
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.postgresql',
-#         'NAME': POSTGRES_DB,
-#         'USER': POSTGRES_USER,
-#         'PASSWORD': POSTGRES_PASSWORD,
-#         'HOST': POSTGRES_HOST,
-#         'PORT': 5432,
-#     }
-# }
 # Database
 # https://docs.djangoproject.com/en/2.0/ref/settings/#databases
 
 DATABASES = {
     'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': POSTGRES_DB,
+        'USER': POSTGRES_USER,
+        'PASSWORD': POSTGRES_PASSWORD,
+        'HOST': POSTGRES_HOST,
+        'PORT': 5432,
+    },
+
+    'local_dev': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
         'HOST': 'db'
