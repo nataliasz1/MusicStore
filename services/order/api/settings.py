@@ -43,7 +43,7 @@ MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',
 ]
 
-ROOT_URLCONF = 'Order_service.urls'
+ROOT_URLCONF = 'api.urls'
 
 # Template configuration
 # https://docs.djangoproject.com/en/2.1/topics/templates/
