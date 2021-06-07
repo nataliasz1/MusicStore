@@ -42,13 +42,17 @@ export default {
         response => {
           console.log(response.data);
           this.user = response.data;
-          axios.get('/api/basket/basket/').then(
+          axios.get('/api/basket/basket/?user_id=' + this.user.id).then(
               response => {
-                this.products = response.data;
-                console.log(response.data);
-                this.totalPrice = 0;
-                for (var product in this.products) {
-                  this.totalPrice += product.price;
+                for(let basketItem of response.data){
+                  axios.get('/api/catalog/product/' + basketItem.slug).then(
+                      response => {
+                        let product = response.data;
+                        product.quantity = basketItem.quantity;
+                        this.products.append(product);
+                        this.totalPrice += (product.price * product.quantity);
+                      }
+                  )
                 }
               }
           )

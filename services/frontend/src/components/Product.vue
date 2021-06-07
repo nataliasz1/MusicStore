@@ -117,15 +117,25 @@ export default {
       });
     },
     addToCart: function (product) {
-      axios.post('/api/basket/basket/add/', {
-        "product_id": product.catalog_item_id,
-        "quantity": 1
-      }).then(
+      axios.get('/api/user/rest-auth/user/', { headers: { 'Authorization': "Token " + this.$session.get("key") }, withCredentials: true }).then(
           response => {
-            console.log(response);
-            this.$router.push('/cart');
+            console.log(response.data);
+            axios.post('/api/basket/basket/add/?user_id=' + response.data.id, {
+              "product_id": product.catalog_item_id,
+              "quantity": 1
+            }).then(
+                response => {
+                  console.log(response);
+                  this.$router.push('/cart');
+                }
+            )
           }
-      )
+      ).catch(function (error){
+        console.log(error);
+        self.$bvModal.show("modal-profile-auth");
+        self.$session.remove("key");
+        self.$router.push("/login");
+      });
     }
   },
   mounted() {

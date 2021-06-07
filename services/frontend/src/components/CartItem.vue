@@ -11,8 +11,9 @@
         <b-col md="11">
           <b-card-body class="text-right">
             <b-card-text right class="text-primary">
-              <b-card-text class="h3 text-dark">Jakaś gitara akustyczna</b-card-text>
-              <b-card-text class="h5">999,99 PLN</b-card-text>
+              <b-card-text class="h3 text-dark">{{product.name}}</b-card-text>
+              <b-card-text class="h5">Ilość: {{ product.quantity }}</b-card-text>
+              <b-card-text class="h5">{{ product.price * product.quantity }} PLN</b-card-text>
               <b-button variant="primary" @click="$router.push('product')">Usuń z koszyka</b-button>
             </b-card-text>
           </b-card-body>
