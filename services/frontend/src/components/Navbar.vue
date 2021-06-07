@@ -73,6 +73,7 @@ export default {
     ).catch(function (error){
       console.log(error);
       self.$session.remove("key");
+      self.$bvModal.show("modal-profile-auth");
     });
   }
 }

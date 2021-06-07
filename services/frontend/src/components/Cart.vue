@@ -14,6 +14,7 @@
 </template>
 <script>
 import CartItem from "@/components/CartItem";
+import axios from "axios";
 // import axios from "axios";
 
 export default {
@@ -31,20 +32,33 @@ export default {
           href: '#'
         }],
       products: [],
-      totalPrice: 0
+      totalPrice: 0,
+      user: null
     }
   },
   mounted() {
-    // axios.get('/api/basket/basket/').then(
-    //     response => {
-    //       this.products = response.data;
-    //       console.log(response.data);
-    //       this.totalPrice = 0;
-    //       for (var product in this.products) {
-    //         this.totalPrice += product.price;
-    //       }
-    //     }
-    // )
+    let self = this;
+    axios.get('/api/user/rest-auth/user/', {withCredentials: true, headers: { 'Authorization': "Token " + this.$session.get("key") }}).then(
+        response => {
+          console.log(response.data);
+          this.user = response.data;
+          axios.get('/api/basket/basket/').then(
+              response => {
+                this.products = response.data;
+                console.log(response.data);
+                this.totalPrice = 0;
+                for (var product in this.products) {
+                  this.totalPrice += product.price;
+                }
+              }
+          )
+        }
+    ).catch(function (error){
+      console.log(error);
+      self.$session.remove("key");
+      self.$bvModal.show("modal-profile-auth");
+      self.$router.push("/login");
+    });
   }
 }
 </script>

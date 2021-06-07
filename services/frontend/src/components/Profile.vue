@@ -14,7 +14,7 @@
           <p class="mb-4">{{ user.email }}</p>
         </b-card>
         <b-card bg-variant="light" title="Moje zamówienia" class="text-left mr-2 mb-4">
-          <p>placeholder brak zamówień</p>
+          <OrderBox v-for="order in orders" :key="order.order_id" v-bind:order="order"></OrderBox>
         </b-card>
       </b-col>
       <b-col xl="2">
@@ -35,9 +35,11 @@
 
 <script>
 import axios from "axios";
+import OrderBox from "@/components/OrderBox";
 
 export default {
   name: "Profile",
+  components: {OrderBox},
   data: function () {
     return {
       breadcrumbs: [
@@ -49,7 +51,8 @@ export default {
           text: 'Profil użytkownika',
           href: '#'
         }],
-      user: null
+      user: null,
+      orders: []
     }
   },
   mounted(){
@@ -69,7 +72,13 @@ export default {
         self.$bvModal.show("modal-profile-auth");
         self.$session.remove("key");
         self.$router.push("/login");
-      })
+      });
+      axios.get('/api/order/orders/', { withCredentials: true }).then(
+          response => {
+            console.log(response.data);
+            this.orders = response.data;
+          }
+      )
     }
   }
 }
