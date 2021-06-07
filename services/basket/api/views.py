@@ -13,7 +13,8 @@ import uuid
 
 @api_view(http_method_names=["POST"])
 def addProduct(request):
-    user_id = request.user
+    user_id = request.query_params.get("user_id")
+    print(user_id)
     if user_id == None:
         user_id = uuid.uuid4()
 
@@ -23,9 +24,9 @@ def addProduct(request):
         
         basket_serializer = BasketSessionSerializer(queryset, many=True) 
         product = request.data["product_id"]
-        
+       # response = requests.get("http://127.0.0.1:8003/product/basket/?prod_id=%d" % product).json() 
         response = requests.get("http://catalog-web:8002/product/basket/?prod_id=%d" % product).json()
-        print(response)
+        #print(response)
         if  type(response) is dict:
             return Response(status = 404)
         else : 
@@ -53,7 +54,9 @@ def addProduct(request):
         basket_serializer = BasketSessionSerializer(queryset, many=True) 
         queryset2 = BasketSession.objects.filter(user_id=user_id)
         product = request.data["product_id"]
+        print("AAAAAA")
         response = requests.get("http://catalog-web:8002/product/basket/?prod_id=%d" % product).json()
+      #  response = requests.get("http://127.0.0.1:8003/product/basket/?prod_id=%d" % product).json()
         print(response)
         if  type(response) is dict:
             return Response(status = 404)
@@ -68,7 +71,7 @@ def addProduct(request):
 
 @api_view(http_method_names=["POST"])
 def removeItem(request):
-    user_id = request.user
+    user_id = request.query_params.get("user_id")
     if user_id == None:
         return Response(status=400)
     queryset = BasketSession.objects.filter(user_id=user_id, status='open')
@@ -84,7 +87,7 @@ def removeItem(request):
 
 @api_view(http_method_names=["POST"])
 def removeBasket(request):
-    user_id = request.user
+    user_id = request.query_params.get("user_id")
     if user_id == None:
         return Response(status=400)
     basket = BasketSession.objects.filter(user_id=user_id, status='open')
@@ -96,7 +99,7 @@ def removeBasket(request):
 
 @api_view(http_method_names=["POST"])
 def changeQuantity(request):
-    user_id = request.user
+    user_id = request.query_params.get("user_id")
     if user_id == None:
         return Response(status=400)
     
@@ -116,7 +119,8 @@ def changeQuantity(request):
 
 @api_view(http_method_names=["GET"])
 def basket(request):
-    user_id = request.user
+    user_id = request.query_params.get("user_id")
+    print(user_id)
     if user_id == None:
         user_id = uuid.uuid4()
     queryset = BasketSession.objects.filter(user_id=user_id, status='open')
