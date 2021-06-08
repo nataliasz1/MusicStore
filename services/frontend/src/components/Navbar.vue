@@ -36,7 +36,8 @@
               </b-button>
             </b-nav-form>
             <b-nav-item>
-              <b-button variant="primary" class="nav-button" @click="$router.push('/profile')">MOJE KONTO</b-button>
+              <b-button v-if="!$session.get('key')" variant="primary" class="nav-button" @click="$router.push('/profile')">MOJE KONTO</b-button>
+              <b-button v-if="$session.get('key') && user.id" variant="primary" class="nav-button" @click="$router.push('/profile')">MOJE KONTO ({{user.email}})</b-button>
             </b-nav-item>
             <b-nav-item>
               <b-button variant="primary" class="nav-button" @click="$router.push('/cart')">KOSZYK</b-button>
@@ -55,7 +56,8 @@ export default {
   name: "Navbar",
   data: function () {
     return {
-      categories: []
+      categories: [],
+      user: null
     }
   },
   mounted() {
@@ -66,15 +68,18 @@ export default {
           console.log(response.data)
         }
     )
-    axios.get('/api/user/rest-auth/user/', {withCredentials: true, headers: { 'Authorization': "Token " + this.$session.get("key") }}).then(
-        response => {
-          console.log(response.data);
-        }
-    ).catch(function (error){
-      console.log(error);
-      self.$session.remove("key");
-      self.$bvModal.show("modal-profile-auth");
-    });
+    if(this.$session.has("key")){
+      axios.get('/api/user/rest-auth/user/', {withCredentials: true, headers: { 'Authorization': "Token " + this.$session.get("key") }}).then(
+          response => {
+            console.log(response.data);
+            this.user = response.data;
+          }
+      ).catch(function (error){
+        console.log(error);
+        self.$session.remove("key");
+        self.$bvModal.show("modal-profile-auth");
+      });
+    }
   }
 }
 </script>

@@ -1,5 +1,6 @@
 <template>
   <div class="order-container">
+    <b-breadcrumb :items="breadcrumbs"></b-breadcrumb>
     <b-card
         bg-variant="light"
         class="mb-3"
@@ -20,7 +21,9 @@
       </b-row>
       <b-row no-gutters>
         <b-col md="12">
-          tu lista produktow
+          <h4 align="left" class="mt-4">Produkty z zamówienia:</h4>
+          <OrderItem v-for="orderItem in order.order_items" :key="orderItem.order_item_id" v-bind:orderItem="orderItem"></OrderItem>
+          <p align="left" v-if="order.order_items.length == 0">brak</p>
         </b-col>
       </b-row>
     </b-card>
@@ -29,18 +32,35 @@
 
 <script>
 import axios from "axios";
+import OrderItem from "@/components/OrderItem";
 
 export default {
 name: "Order",
-  data: function (){
+  components: {OrderItem},
+  data: function () {
     return {
+      breadcrumbs: [
+        {
+          text: 'Home',
+          to: '/'
+        },
+        {
+          text: 'Profil',
+          to: '/profile'
+        },
+        {
+          text: 'Zamówienie',
+          href: '#'
+        }],
       order: null
     }
   },
   mounted() {
-    axios.get('/api/order/orders/' + this.$route.params.id).then(
+    axios.get('/api/order/orders/' + this.$route.params.id + "/").then(
         response => {
           this.order = response.data;
+          console.log(this.order);
+          console.log(this.order.order_items);
         }
     )
   }

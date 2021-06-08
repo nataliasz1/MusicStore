@@ -10,7 +10,7 @@
       </div>
     </b-modal>
     <b-modal id="modal-profile-auth" ok-only title="Coś poszło nie tak">
-      <p>Nie udało się uwierzytelnić użytkownika. Zostaniesz wylogowany.</p>
+      <p>Nie udało się uwierzytelnić użytkownika. Jesteś wylogowany.</p>
     </b-modal>
   </div>
 </template>

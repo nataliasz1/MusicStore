@@ -47,15 +47,19 @@ export default {
                 for(let basketItem of response.data){
                   axios.get('/api/catalog/product/' + basketItem.slug).then(
                       response => {
-                        let product = response.data;
+                        let product = response.data[0];
+                        console.log(product);
                         product.quantity = basketItem.quantity;
-                        this.products.append(product);
+                        this.products.push(product);
                         this.totalPrice += (product.price * product.quantity);
                       }
                   )
+                  console.log(this.products);
                 }
               }
-          )
+          ).catch(function(err){
+            console.log(err)
+          });
         }
     ).catch(function (error){
       console.log(error);

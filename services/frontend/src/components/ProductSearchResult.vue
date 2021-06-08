@@ -6,7 +6,7 @@
         style="object-fit: cover">
       <b-row no-gutters>
         <b-col md="3">
-          <b-card-img src="../assets/guitar.png"></b-card-img>
+          <b-card-img src="https://via.placeholder.com/500"></b-card-img>
         </b-col>
         <b-col md="9">
           <b-card-body title="Jakaś gitara akustyczna" class="text-right">

@@ -14,6 +14,10 @@
           <p class="mb-4">{{ user.email }}</p>
         </b-card>
         <b-card bg-variant="light" title="Moje zamówienia" class="text-left mr-2 mb-4">
+          <div v-if="loading">
+            <h5 primary>WCZYTYWANIE DANYCH</h5>
+            <b-spinner style="width: 3rem; height: 3rem;" variant="primary"></b-spinner>
+          </div>
           <OrderBox v-for="order in orders" :key="order.order_id" v-bind:order="order"></OrderBox>
         </b-card>
       </b-col>
@@ -22,7 +26,7 @@
           <h5 class="mt-5">Konto</h5>
           <p>Zmień hasło</p>
           <p>Usuń konto</p>
-          <p>Wyloguj</p>
+          <a class="text-primary" @click="logout">Wyloguj</a>
           <h5 class="mt-5">Dane osobowe</h5>
           <p>Adres dostawy</p>
           <p>Dane do faktury</p>
@@ -52,7 +56,20 @@ export default {
           href: '#'
         }],
       user: null,
-      orders: []
+      orders: [],
+      loading: true
+    }
+  },
+  methods: {
+    logout: function (){
+      axios.post('/api/user/rest-auth/logout/', {}, {withCredentials: true, headers: { 'Authorization': "Token " + this.$session.get("key") }}).then(
+          response => {
+              console.log(response.data);
+              this.$session.remove('key');
+              this.user = null;
+              window.location.reload();
+            }
+      )
     }
   },
   mounted(){
@@ -77,6 +94,7 @@ export default {
           response => {
             console.log(response.data);
             this.orders = response.data;
+            this.loading = false;
           }
       )
     }
