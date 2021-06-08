@@ -27,6 +27,7 @@ INSTALLED_APPS = [
     'api',
     'corsheaders',
     'rest_framework',
+    'django_extensions'
 ]
 
 # Middleware framework
