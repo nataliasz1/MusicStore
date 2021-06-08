@@ -12,4 +12,4 @@ class BasketSessionSerializer(serializers.HyperlinkedModelSerializer):
 class BasketItemSerializer(serializers.ModelSerializer):
     class Meta:
         model = BasketItem
-        fields = ('basket_item_id', 'basket_session_id', 'catalog_item_id', 'quantity')
+        fields = ('basket_item_id', 'basket_session_id','catalog_item_id', 'slug', 'quantity')

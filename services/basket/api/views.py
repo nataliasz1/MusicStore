@@ -41,6 +41,7 @@ def addProduct(request):
                 basket_item = BasketItem()
                 basket_item.basket_session_id = BasketSession.objects.filter(basket_id=basket_serializer.data[0]['basket_id'], status='open').first()
                 basket_item.catalog_item_id = response[0]['catalog_item_id']
+                basket_item.slug = response[0]['slug']
                 basket_item.quantity = request.data["quantity"]
                 basket_item.save()
             
@@ -64,6 +65,7 @@ def addProduct(request):
             basket_item = BasketItem()
             basket_item.basket_session_id = BasketSession.objects.filter(basket_id=basket_serializer.data[0]['basket_id'], status='open').first()
             basket_item.catalog_item_id = response[0]['catalog_item_id']
+            basket_item.slug = response[0]['slug']
             basket_item.quantity = request.data["quantity"]
             basket_item.save()
            
