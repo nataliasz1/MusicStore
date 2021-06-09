@@ -36,10 +36,9 @@ def getItems(request):
 
 
 @api_view(http_method_names=["GET"])
-def getItem(request, slug):
+def getItem(request, item_id):
     if request.method == 'GET':
-        lookup_field = 'slug'
-        queryset = CatalogItem.objects.filter(slug=slug)
+        queryset = CatalogItem.objects.filter(catalog_item_id=item_id)
         if queryset.count() != 0:
             serializer_class = CatalogItemSerializer(queryset, many=True)
 

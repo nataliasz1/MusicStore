@@ -115,6 +115,11 @@ def changeQuantity(request):
         if basket_item.count() != 0:
                 basket_item.update(quantity=quantity)
                 basket_item.first().save()
+
+        
+        if basket_item.first().quantity == 0:
+            basket_item.delete()
+            
     return Response(status = 200)
 
 
@@ -132,24 +137,19 @@ def basket(request):
     if queryset.count() == 0:
         return Response( status = 404)
     else :
-        products = BasketItem.objects.filter(
-                basket_session_id=BasketSession.objects.filter(basket_id=basket_session_serializer.data[0]['basket_id'], status='open').first()
-        )
-        if products.count() != 0 :
-                
-                print(products.first())
-                serializer_class = BasketItemSerializer(products, many=True)
-                print(serializer_class.data)
-                
-                return Response(serializer_class.data, status = 200)
+        return Response( basket_session_serializer.data, status = 200)
 
-        else : return Response(status = 404)
+
+
+
+
+
 
 
 
 '''
 {
-"product_id": 2,
+"product_id": 1,
 "quantity": 2
 }
 '''

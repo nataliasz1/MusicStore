@@ -20,7 +20,7 @@ class BasketSession(models.Model):
 
 class BasketItem(models.Model):
     basket_item_id = models.BigAutoField(primary_key=True)
-    basket_session_id = models.ForeignKey(BasketSession, on_delete=models.CASCADE)
+    basket_session_id = models.ForeignKey(BasketSession, related_name='basket_item', on_delete=models.CASCADE)
     catalog_item_id = models.IntegerField()
     slug = models.CharField(max_length=255)
     quantity = models.IntegerField()
