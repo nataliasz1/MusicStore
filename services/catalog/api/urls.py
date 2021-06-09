@@ -24,7 +24,7 @@ from . import views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path("", views.getItems),
-    path("product/<slug:slug>", views.getItem),
+    path("product/<int:item_id>", views.getItem),
     path("categories/", views.getCategories),
     path("category/<slug:slug>", views.getCategoryItems),
     path("product/basket/", views.addToBasket),
