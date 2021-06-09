@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'api',
     'django_extensions',
+    'django_filters'
 ]
 
 MIDDLEWARE = [
@@ -74,12 +75,13 @@ TEMPLATES = [
 WSGI_APPLICATION = 'api.wsgi.application'
 
 REST_FRAMEWORK = {
-	'UNAUTHENTICATED_USER': None,
+    'UNAUTHENTICATED_USER': None,
     'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.AllowAny',
-
-    ]
+    ],
+    'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend'],
 }
+
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
@@ -87,7 +89,8 @@ REST_FRAMEWORK = {
 POSTGRES_HOST = os.environ.get('POSTGRES_HOST', default="ec2-34-255-134-200.eu-west-1.compute.amazonaws.com")
 POSTGRES_DB = os.environ.get('POSTGRES_DB', default="des7qfk535algp")
 POSTGRES_USER = os.environ.get('POSTGRES_USER', default="zgfyfjmlltabpf")
-POSTGRES_PASSWORD = os.environ.get('POSTGRES_PASSWORD', default="d4eda48129dcd86170fce25b4d0f6f5f89d132344b3a3a511f780611f8e778ce")
+POSTGRES_PASSWORD = os.environ.get('POSTGRES_PASSWORD',
+                                   default="d4eda48129dcd86170fce25b4d0f6f5f89d132344b3a3a511f780611f8e778ce")
 
 print(f'POSTGRES_HOST: {POSTGRES_HOST}\n'
       f'POSTGRES_DB: {POSTGRES_DB}\n',
@@ -128,7 +131,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/2.0/topics/i18n/
 
@@ -142,9 +144,8 @@ USE_L10N = True
 
 USE_TZ = True
 
-CORS_ORIGIN_ALLOW_ALL = True # If this is used then `CORS_ORIGIN_WHITELIST` will not have any effect
+CORS_ORIGIN_ALLOW_ALL = True  # If this is used then `CORS_ORIGIN_WHITELIST` will not have any effect
 CORS_ALLOW_CREDENTIALS = True
-
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.0/howto/static-files/
