@@ -23,7 +23,7 @@
               </b-card-text>
               <div class="price-button-container">
                 <p>{{ product.price }} PLN</p>
-                <b-button variant="primary" @click="addToCart(product)">DO KOSZYKA</b-button>
+                <b-button :disabled="!$session.has('key')" variant="primary" @click="addToCart(product)">DO KOSZYKA</b-button>
               </div>
             </b-card-body>
           </b-col>
