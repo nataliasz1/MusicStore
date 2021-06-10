@@ -24,13 +24,13 @@
       <b-col xl="2">
         <b-card bg-variant="light" title="Ustawienia" text-variant="left" class="ml-2 text-left">
           <h5 class="mt-5">Konto</h5>
-          <p>Zmień hasło</p>
-          <p>Usuń konto</p>
-          <a class="text-primary" @click="logout">Wyloguj</a>
+          <p class="page-link profile-link">Zmień hasło</p>
+          <p class="page-link profile-link">Usuń konto</p>
+          <p class="page-link profile-link" @click="logout">Wyloguj</p>
           <h5 class="mt-5">Dane osobowe</h5>
-          <p>Adres dostawy</p>
-          <p>Dane do faktury</p>
-          <p>Dane kontaktowe</p>
+          <p class="page-link profile-link">Adres dostawy</p>
+          <p class="page-link profile-link">Dane do faktury</p>
+          <p class="page-link profile-link">Dane kontaktowe</p>
         </b-card>
       </b-col>
     </b-row>
@@ -109,7 +109,9 @@ export default {
   margin-left: auto;
   margin-right: auto;
 }
-
+.profile-link {
+  cursor: pointer;
+}
 .options-container {
 
 }

@@ -13,6 +13,7 @@ import VueSession from 'vue-session'
 import Profile from "@/components/Profile";
 import Payment from "./components/Payment";
 import Order from "@/components/Order";
+import Register from "@/components/Register";
 
 Vue.use(VueSession)
 Vue.use(BootstrapVue);
@@ -22,13 +23,14 @@ Vue.use(VueRouter);
 
 const routes = [
     {path: '/', component: Home},
-    {path: '/product/:slug', component: Product},
+    {path: '/product/:id', component: Product},
     {path: '/cart', component: Cart},
     {path: '/search', component: SearchResults},
     {path: '/login', component: Login},
     {path: '/profile', component: Profile},
     {path: '/pay', component: Payment},
-    {path: '/order/:id', component: Order}
+    {path: '/order/:id', component: Order},
+    {path: '/register', component: Register}
 ]
 
 const router = new VueRouter(
