@@ -4,7 +4,8 @@
       <p class="h2">Logowanie</p>
       <b-form-input placeholder="Adres e-mail" v-model="username" class="mt-4"></b-form-input>
       <b-form-input placeholder="Hasło" type="password" v-model="password" class="mt-4"></b-form-input>
-      <a class="mt-1 pointer-text" @click="forgotPassword">Nie pamiętam hasła</a><br>
+      <a class="mt-1 pointer-text" @click="forgotPassword">Nie pamiętam hasła</a>
+      <br>
       <b-button variant="primary" class="mt-4" @click="login">ZALOGUJ</b-button>
       <br><br>
       <p class="mb-0">Nie masz konta?</p>

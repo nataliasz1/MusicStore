@@ -8,8 +8,11 @@
       <p class="text-danger" v-if="showPassWarning">Hasła muszą być jednakowe!</p>
       <b-form-checkbox id="tos-checkbox" name="tos-checkbox" v-model="tosAccepted">Akceptuję regulamin serwisu</b-form-checkbox>
       <p class="text-danger" v-if="showTosWarning">Musisz zaakceptować regulamin!</p>
-      <br><br>
+      <br>
       <b-button variant="primary" @click="register">STWÓRZ KONTO</b-button>
+      <br><br>
+      <p class="mb-0">Masz już konto?</p>
+      <b-button @click="$router.push('/login')">ZALOGUJ SIĘ</b-button>
     </b-card>
     <b-modal id="modal-register-success" ok-only title="Sukces!" @hidden="$router.push('/login')">
       <p>Konto zostało stworzone. Możesz się zalogować.</p>
