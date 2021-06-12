@@ -40,7 +40,11 @@ export default {
           response => {
             console.log(response.data);
             this.user = response.data;
-            axios.post('/api/basket/removeItem/?user_id=' + this.user.id, {"product_id": this.product.catalog_item_id}).then(
+            axios.post('/api/basket/basket/removeItem/?user_id=' + this.user.id,
+                {
+                  "product_id": this.product.catalog_item_id,
+                  "quantity": this.product.quantity
+                }).then(
                 response => {
                   console.log(response.data);
                   this.$router.go();

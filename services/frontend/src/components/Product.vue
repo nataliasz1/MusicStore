@@ -23,7 +23,8 @@
               </b-card-text>
               <div class="price-button-container">
                 <p>{{ product.price }} PLN</p>
-                <b-button :disabled="!$session.has('key')" variant="primary" @click="addToCart(product)">DO KOSZYKA</b-button>
+                <b-button v-if="!adding" :disabled="!$session.has('key')" variant="primary" @click="addToCart(product)">DO KOSZYKA</b-button>
+                <b-spinner v-if="adding" style="width: 3rem; height: 3rem;" variant="primary"></b-spinner>
               </div>
             </b-card-body>
           </b-col>
@@ -82,7 +83,8 @@ export default {
         }],
       product: null,
       opinions: [],
-      averageStars: 0
+      averageStars: 0,
+      adding: false
     }
   },
   methods: {
@@ -117,6 +119,7 @@ export default {
       });
     },
     addToCart: function (product) {
+      this.adding=true;
       axios.get('/api/user/rest-auth/user/', { headers: { 'Authorization': "Token " + this.$session.get("key") }, withCredentials: true }).then(
           response => {
             console.log(response.data);
@@ -201,5 +204,10 @@ export default {
   position: absolute;
   right: 0px;
   top: 0px;
+}
+
+.product-cart-container {
+  text-align: center;
+  width: 100%;
 }
 </style>
