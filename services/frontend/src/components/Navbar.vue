@@ -24,14 +24,14 @@
             <b-nav-form v-if="this.$parent.$data.isScrolled" class="nav-search">
               <b-form-input size="md" class="mr-md-2 nav-search-bar"
                             placeholder="Jakiego produktu szukasz?"></b-form-input>
-              <b-button size="md" class="my-2 my-sm-0" variant="primary" type="submit" @click="$router.push('/search')">
+              <b-button size="md" class="my-2 my-sm-0" variant="primary" @click="$router.push('/search')">
                 SZUKAJ
               </b-button>
             </b-nav-form>
             <b-nav-form v-else class="nav-search">
               <b-form-input size="lg" class="mr-lg-2 nav-search-bar"
                             placeholder="Jakiego produktu szukasz?"></b-form-input>
-              <b-button size="lg" class="my-2 my-sm-0" variant="primary" type="submit" @click="$router.push('/search')">
+              <b-button size="lg" class="my-2 my-sm-0" variant="primary" @click="$router.push('/search')">
                 SZUKAJ
               </b-button>
             </b-nav-form>
