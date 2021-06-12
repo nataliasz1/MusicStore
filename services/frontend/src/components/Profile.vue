@@ -5,11 +5,11 @@
       <b-col xl="10">
         <b-card bg-variant="light" title="Moje dane" class="text-left mr-2 mb-4">
           <h5 class="mb-0">Imię</h5>
-          <p class="mb-4">{{user.first_name}}</p>
+          <p class="mb-4">{{user.first_name === "" ? "brak" : user.first_name}}</p>
           <h5 class="mb-0">Nazwisko</h5>
-          <p class="mb-4">{{user.last_name}}</p>
+          <p class="mb-4">{{user.last_name === "" ?  "brak" : user.last_name}}</p>
           <h5 class="mb-0">Telefon kontaktowy</h5>
-          <p class="mb-4">{{user.phone}}</p>
+          <p class="mb-4">{{user.phone === "" ?  "brak" : user.phone}}</p>
           <h5 class="mb-0">Adres e-mail</h5>
           <p class="mb-4">{{ user.email }}</p>
         </b-card>
@@ -83,6 +83,13 @@ export default {
           response => {
             console.log(response.data);
             this.user = response.data;
+            axios.get('/api/order/orders/user-id/' + this.user.id, { withCredentials: true }).then(
+                response => {
+                  console.log(response.data);
+                  this.orders = response.data;
+                  this.loading = false;
+                }
+            )
           }
       ).catch(function (error){
         console.log(error);
@@ -90,13 +97,6 @@ export default {
         self.$session.remove("key");
         self.$router.push("/login");
       });
-      axios.get('/api/order/orders/', { withCredentials: true }).then(
-          response => {
-            console.log(response.data);
-            this.orders = response.data;
-            this.loading = false;
-          }
-      )
     }
   }
 }
