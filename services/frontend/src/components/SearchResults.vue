@@ -5,13 +5,26 @@
       <b-col xl="3">
         <b-card bg-variant="light" class="search-filter-container text-left">
           <p class="h3 mb-4">Filtry</p>
-          <b-form-checkbox v-for="index in 10" :key="index" class="mt-1">Jakaś opcja</b-form-checkbox>
+          <p class="mb-0">Nazwa:</p>
+          <b-form-input class="mb-2" v-model="name"></b-form-input>
+          <p class="mb-0">Kategoria:</p>
+          <b-form-select class="mb-2" v-model="category" :options="categories"></b-form-select>
+          <p class="mb-0">Cena od:</p>
+          <b-form-input class="mb-2" type="number" v-model="priceMin"></b-form-input>
+          <p class="mb-0">Cena do:</p>
+          <b-form-input class="mb-2" type="number" v-model="priceMax"></b-form-input>
+          <p class="mb-0">Opinie:</p>
+          <b-form-rating variant="primary" no-border inline class="opinion-avg-rating" v-model="opinion"></b-form-rating><br>
           <b-button variant="primary" class="mt-3">Filtruj</b-button>
         </b-card>
       </b-col>
       <b-col xl="9">
         <div class="result-container">
-          <ProductSearchResult v-for="index in 10" :key="index"></ProductSearchResult>
+          <div v-if="loading">
+            <h5 primary>WCZYTYWANIE DANYCH</h5>
+            <b-spinner style="width: 3rem; height: 3rem;" variant="primary"></b-spinner>
+          </div>
+          <ProductSearchResult v-for="product in products" :key="product.catalog_item_id" v-bind:product="product"></ProductSearchResult>
         </div>
       </b-col>
     </b-row>
@@ -20,6 +33,7 @@
 
 <script>
 import ProductSearchResult from "@/components/ProductSearchResult";
+import axios from "axios";
 
 export default {
   name: "SearchResults",
@@ -32,10 +46,38 @@ export default {
           to: '/'
         },
         {
-          text: 'Kategoria',
+          text: 'Wyszukiwanie',
           href: '#'
-        }]
+        }
+        ],
+      products: null,
+      loading: true,
+      categories: [],
+      category: null,
+      name: null,
+      priceMin: 0,
+      priceMax: null,
+      opinion: 0
     }
+  },
+  mounted() {
+    axios.get('/api/catalog/').then(
+        response => {
+          this.products = response.data;
+          console.log(response.data);
+          this.loading = false;
+        }
+    )
+    axios.get('/api/catalog/categories/').then(
+        response => {
+          this.categories.push({value: null,  text: "Dowolna"});
+          for(let cat of response.data){
+            this.categories.push({value: cat.slug, text: cat.name})
+          }
+          console.log(response.data)
+          console.log(this.categories);
+        }
+    )
   }
 }
 </script>
@@ -55,5 +97,8 @@ export default {
 .result-container {
   margin-left: 8px;
   margin-bottom: 8px;
+}
+.opinion-avg-rating {
+  background: #F8F9FA;
 }
 </style>

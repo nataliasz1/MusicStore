@@ -9,12 +9,11 @@
           <b-card-img src="https://via.placeholder.com/500"></b-card-img>
         </b-col>
         <b-col md="9">
-          <b-card-body title="Jakaś gitara akustyczna" class="text-right">
-            <p>Szczegóły</p>
-            <p>Więcej szczegółów</p>
+          <b-card-body :title="product.name" class="text-right">
+            <p>{{product.description}}</p>
             <b-card-text right class="text-primary">
-              <b-card-text class="h3">999,99 PLN</b-card-text>
-              <b-button variant="primary" @click="$router.push('product')">Sprawdź</b-button>
+              <b-card-text class="h3">{{ product.price }}</b-card-text>
+              <b-button variant="primary" @click="$router.push('/product/' + product.catalog_item_id)">Sprawdź</b-button>
             </b-card-text>
           </b-card-body>
         </b-col>
@@ -24,7 +23,8 @@
 </template>
 <script>
 export default {
-  name: "ProductSearchResult"
+  name: "ProductSearchResult",
+  props: ['product']
 }
 </script>
 
