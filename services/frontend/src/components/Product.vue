@@ -143,7 +143,7 @@ export default {
   },
   mounted() {
     this.product = null;
-    axios.get('/api/catalog/product/' + this.$route.params.id).then(
+    axios.get('/api/catalog/products/' + this.$route.params.id).then(
         response => {
           this.product = response.data[0];
           console.log(response.data[0]);

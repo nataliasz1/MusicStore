@@ -64,7 +64,7 @@ export default {
     fetchData: function (){
       this.loading = true;
       this.products = [];
-      let url = "/api/catalog/products?";
+      let url = "/api/catalog/products/?";
       if(this.name != null){
         url += "name="+this.name+"&";
       }
@@ -80,7 +80,8 @@ export default {
       if(this.opinion !== 0){
         url += "stars="+this.opinion+"&";
       }
-      url = url.slice(0, -1)
+      url = url.slice(0, -1);
+      console.log(url);
       axios.get(url).then(
           response => {
             this.products = response.data;

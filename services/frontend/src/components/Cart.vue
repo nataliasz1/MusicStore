@@ -55,7 +55,7 @@ export default {
                 let expectedBasketSize = response.data[0].basket_item.length;
                 if(expectedBasketSize > 0){
                   for(let basketItem of response.data[0].basket_item) {
-                    axios.get('/api/catalog/product/' + basketItem.catalog_item_id).then(
+                    axios.get('/api/catalog/products/' + basketItem.catalog_item_id).then(
                         response => {
                           let product = response.data[0];
                           console.log(product);
