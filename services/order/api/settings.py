@@ -74,10 +74,12 @@ POSTGRES_USER = os.environ.get('POSTGRES_USER', default="srxcrdmbedglpr")
 POSTGRES_PASSWORD = os.environ.get('POSTGRES_PASSWORD',
                                    default="f60781f913431d429418b8cce31cdac7c8222b8385f9c05d34fcba3389488f4e")
 
-print(f'POSTGRES_HOST: {POSTGRES_HOST}\n'
-      f'POSTGRES_DB: {POSTGRES_DB}\n',
-      f'POSTGRES_USER: {POSTGRES_USER}\n'
-      f'POSTGRES_PASSWORD: {POSTGRES_PASSWORD}\n')
+# TODO - Only for debbug purposes
+if (False):
+    print(f'POSTGRES_HOST: {POSTGRES_HOST}\n'
+          f'POSTGRES_DB: {POSTGRES_DB}\n',
+          f'POSTGRES_USER: {POSTGRES_USER}\n'
+          f'POSTGRES_PASSWORD: {POSTGRES_PASSWORD}\n')
 
 DATABASES = {
     'default': {

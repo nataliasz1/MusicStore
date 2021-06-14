@@ -17,15 +17,13 @@ from django.contrib import admin
 from django.urls import path
 
 from . import views
-
-# router = routers.DefaultRouter()
-# router.register(r'catalog', views.CatalogItemViewSet.as_view())
+from .views import CatalogItemsApiView, CatalogCategoriesListView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path("", views.getItems),
-    path("product/<int:item_id>", views.getItem),
-    path("categories/", views.getCategories),
+    path("products", CatalogItemsApiView.as_view()),
+    path("products/<int:item_id>", views.getItem),
+    path("categories", CatalogCategoriesListView.as_view()),
     path("category/<slug:slug>", views.getCategoryItems),
     path("product/basket/", views.addToBasket),
     path("opinion/add/", views.addOpinion),
