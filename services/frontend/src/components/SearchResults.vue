@@ -15,7 +15,7 @@
           <b-form-input class="mb-2" type="number" v-model="priceMax"></b-form-input>
           <p class="mb-0">Opinie:</p>
           <b-form-rating variant="primary" no-border inline class="opinion-avg-rating" v-model="opinion"></b-form-rating><br>
-          <b-button variant="primary" class="mt-3">Filtruj</b-button>
+          <b-button variant="primary" class="mt-3" @click="fetchData">Filtruj</b-button>
         </b-card>
       </b-col>
       <b-col xl="9">
@@ -60,14 +60,38 @@ export default {
       opinion: 0
     }
   },
+  methods: {
+    fetchData: function (){
+      this.loading = true;
+      this.products = [];
+      let url = "/api/catalog/products?";
+      if(this.name != null){
+        url += "name="+this.name+"&";
+      }
+      if(this.category != null){
+        url += "category="+this.category+"&";
+      }
+      if(this.priceMax != null){
+        url += "max_price="+this.priceMax+"&";
+      }
+      if(this.priceMin !== 0){
+        url += "min_price="+this.priceMin+"&";
+      }
+      if(this.opinion !== 0){
+        url += "stars="+this.opinion+"&";
+      }
+      url = url.slice(0, -1)
+      axios.get(url).then(
+          response => {
+            this.products = response.data;
+            console.log(response.data);
+            this.loading = false;
+          }
+      )
+    }
+  },
   mounted() {
-    axios.get('/api/catalog/').then(
-        response => {
-          this.products = response.data;
-          console.log(response.data);
-          this.loading = false;
-        }
-    )
+    this.fetchData();
     axios.get('/api/catalog/categories/').then(
         response => {
           this.categories.push({value: null,  text: "Dowolna"});
