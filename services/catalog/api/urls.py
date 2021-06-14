@@ -21,9 +21,9 @@ from .views import CatalogItemsApiView, CatalogCategoriesListView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path("products", CatalogItemsApiView.as_view()),
+    path("products/", CatalogItemsApiView.as_view()),
     path("products/<int:item_id>", views.getItem),
-    path("categories", CatalogCategoriesListView.as_view()),
+    path("categories/", CatalogCategoriesListView.as_view()),
     path("category/<slug:slug>", views.getCategoryItems),
     path("product/basket/", views.addToBasket),
     path("opinion/add/", views.addOpinion),
