@@ -57,7 +57,7 @@ def addProduct(request):
         product = request.data["product_id"]
         print("AAAAAA")
         response = requests.get("http://catalog-web:8002/product/basket/?prod_id=%d" % product).json()
-      #  response = requests.get("http://127.0.0.1:8003/product/basket/?prod_id=%d" % product).json()
+       # response = requests.get("http://127.0.0.1:8003/product/basket/?prod_id=%d" % product).json()
         print(response)
         if  type(response) is dict:
             return Response(status = 404)
@@ -141,6 +141,16 @@ def basket(request):
 
 
 
+@api_view(http_method_names=["GET"])
+def createOrder(request):
+    if request.method == 'GET':
+        basket_id = BasketSession.objects.filter(user_id=request.query_params.get("user_id"), status='open').first()
+        basket_items = BasketItem.objects.filter(basket_session_id =basket_id)
+        if basket_items.count() != 0:
+            serializer_class = BasketItemSerializer(basket_items, many=True)
+            return Response(serializer_class.data, status=200)
+        else:
+            return Response({"message": "Not found"}, status=404)
 
 
 
