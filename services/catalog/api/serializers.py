@@ -29,4 +29,4 @@ class OpinionSerializer(serializers.ModelSerializer):
 class CategorySerializer(serializers.ModelSerializer):
     class Meta:
         model = Category
-        fields = ["name", "slug"]
+        fields = ['id', 'name', 'slug']
