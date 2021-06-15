@@ -92,12 +92,15 @@ export default {
     }
   },
   mounted() {
+    if(this.$route.query.name){
+      this.name = this.$route.query.name;
+    }
     this.fetchData();
     axios.get('/api/catalog/categories/').then(
         response => {
           this.categories.push({value: null,  text: "Dowolna"});
           for(let cat of response.data){
-            this.categories.push({value: cat.slug, text: cat.name})
+            this.categories.push({value: cat.id, text: cat.name})
           }
           console.log(response.data)
           console.log(this.categories);

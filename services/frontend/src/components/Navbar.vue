@@ -23,15 +23,15 @@
                         v-bind:class="{'nav-buttons': !this.$parent.$data.isScrolled,  'nav-buttons-thin': this.$parent.$data.isScrolled}">
             <b-nav-form v-if="this.$parent.$data.isScrolled" class="nav-search">
               <b-form-input size="md" class="mr-md-2 nav-search-bar"
-                            placeholder="Jakiego produktu szukasz?"></b-form-input>
-              <b-button size="md" class="my-2 my-sm-0" variant="primary" @click="$router.push('/search')">
+                            placeholder="Jakiego produktu szukasz?" v-model="prodName"></b-form-input>
+              <b-button size="md" class="my-2 my-sm-0" variant="primary" @click="$router.push('/search?name='+prodName)">
                 SZUKAJ
               </b-button>
             </b-nav-form>
             <b-nav-form v-else class="nav-search">
               <b-form-input size="lg" class="mr-lg-2 nav-search-bar"
-                            placeholder="Jakiego produktu szukasz?"></b-form-input>
-              <b-button size="lg" class="my-2 my-sm-0" variant="primary" @click="$router.push('/search')">
+                            placeholder="Jakiego produktu szukasz?" v-model="prodName"></b-form-input>
+              <b-button size="lg" class="my-2 my-sm-0" variant="primary" @click="$router.push('/search?name='+prodName)">
                 SZUKAJ
               </b-button>
             </b-nav-form>
@@ -57,7 +57,8 @@ export default {
   data: function () {
     return {
       categories: [],
-      user: null
+      user: null,
+      prodName: null
     }
   },
   mounted() {
