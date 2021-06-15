@@ -25,6 +25,8 @@
 </template>
 
 <script>
+import axios from "axios";
+
 export default {
 name: "OrderItem",
   props: ['orderItem'],
@@ -33,6 +35,14 @@ name: "OrderItem",
       product: null
     }
   },
+  mounted() {
+    axios.get('/api/catalog/products/' + this.orderItem.catalog_item_id).then(
+        response => {
+          this.product = response.data[0];
+          console.log(response.data[0]);
+        }
+    )
+  }
 }
 </script>
 
