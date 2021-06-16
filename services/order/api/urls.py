@@ -8,6 +8,8 @@ from django.contrib import admin
 from django.urls import include, path
 from django.views.generic import TemplateView
 from rest_framework import routers
+from django.contrib.staticfiles.urls import staticfiles_urlpatterns
+
 from . import views
 
 from .views import OrderViewSet, PaymentViewSet, OrderItemViewSet
@@ -30,3 +32,5 @@ urlpatterns += [
     path('', include(router.urls)),
     path('order/', views.create_order)
 ]
+
+urlpatterns += staticfiles_urlpatterns()
