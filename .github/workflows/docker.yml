@@ -37,7 +37,7 @@ jobs:
          
       - name: docker build for user-web microservice
         run: |
-         docker build ./services/user -t jwrzosek/order-web:latest
+         docker build ./services/user -t jwrzosek/user-web:latest
       
       - name: docker push
         run: |
@@ -45,5 +45,5 @@ jobs:
           docker push jwrzosek/catalog-web:latest
           docker push jwrzosek/vue-frontend:latest
           docker push jwrzosek/order-web:latest
-          docker push jwrzosek/order-web:latest
+          docker push jwrzosek/user-web:latest
 
