@@ -12,7 +12,7 @@
           <b-card-body class="text-right">
             <b-card-text right class="text-primary">
 <!--              <b-card-text class="h3 text-dark">{{product.name}}</b-card-text>-->
-              <b-card-text class="h3 text-dark">PLACEHOLDER_NAZWA_PRODUKTU</b-card-text>
+              <b-card-text class="h3 text-dark">{{ product.name }}</b-card-text>
               <b-card-text class="h5">Ilość: {{ orderItem.quantity }}</b-card-text>
               <p class="text-dark mb-0">Cena katalogowa:</p>
               <b-card-text class="h5">{{ orderItem.price }} PLN</b-card-text>

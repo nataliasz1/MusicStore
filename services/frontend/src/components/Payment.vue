@@ -1,11 +1,12 @@
 <template>
   <div class="payment-container">
-    <h4 v-if="!loading" class="mb-4">Do zapłaty: {{totalPrice}} PLN</h4>
+    <h4 v-if="!loading" class="mb-4">Do zapłaty: {{ totalPrice }} PLN</h4>
     <div v-if="loading" class="payment-loading-container">
       <h5 primary>WCZYTYWANIE DANYCH</h5>
       <b-spinner style="width: 3rem; height: 3rem;" variant="primary"></b-spinner>
     </div>
     <div :hidden="loading" id="paypal-button-container"></div>
+    <b-button variant="primary" @click="simulatePayment">Kup na zeszyt</b-button>
     <b-button variant="danger" @click="$router.push('/cart')">Anuluj</b-button>
   </div>
 </template>
@@ -14,7 +15,7 @@
 import axios from "axios";
 
 export default {
-name: "Payment",
+  name: "Payment",
   data: function () {
     return {
       user: null,
@@ -23,24 +24,35 @@ name: "Payment",
       totalPrice: 0
     }
   },
+  methods: {
+    simulatePayment: function (){
+      axios.get('/api/order/order/?user_id=' + this.user.id).then(
+          response => {
+            console.log(response.data);
+          }
+      ).catch(function (error){
+        console.log(error);
+      })
+    }
+  },
   mounted() {
     let self = this;
     // eslint-disable-next-line no-undef
     paypal.Buttons({
 
-      createOrder: function(data, actions) {
-        console.log(''+self.totalPrice);
+      createOrder: function (data, actions) {
+        console.log('' + self.totalPrice);
         return actions.order.create({
           purchase_units: [{
             amount: {
-              value: ''+self.totalPrice
+              value: '' + self.totalPrice
             }
           }]
         });
       },
 
-      onApprove: function(data, actions) {
-        return actions.order.capture().then(function(details) {
+      onApprove: function (data, actions) {
+        return actions.order.capture().then(function (details) {
           alert('Transaction completed by ' + details.payer.name.given_name + '!');
         });
       }
@@ -48,7 +60,10 @@ name: "Payment",
 
     }).render('#paypal-button-container');
 
-    axios.get('/api/user/rest-auth/user/', {withCredentials: true, headers: { 'Authorization': "Token " + this.$session.get("key") }}).then(
+    axios.get('/api/user/rest-auth/user/', {
+      withCredentials: true,
+      headers: {'Authorization': "Token " + this.$session.get("key")}
+    }).then(
         response => {
           console.log(response.data);
           this.user = response.data;
@@ -57,8 +72,8 @@ name: "Payment",
                 console.log(response.data)
                 let basketSize = 0;
                 let expectedBasketSize = response.data[0].basket_item.length;
-                if(expectedBasketSize > 0){
-                  for(let basketItem of response.data[0].basket_item) {
+                if (expectedBasketSize > 0) {
+                  for (let basketItem of response.data[0].basket_item) {
                     axios.get('/api/catalog/products/' + basketItem.catalog_item_id).then(
                         response => {
                           let product = response.data[0];
@@ -74,16 +89,15 @@ name: "Payment",
                         }
                     )
                   }
-                }
-                else {
+                } else {
                   this.loading = false;
                 }
               }
-          ).catch(function(err){
+          ).catch(function (err) {
             console.log(err)
           });
         }
-    ).catch(function (error){
+    ).catch(function (error) {
       console.log(error);
       self.$session.remove("key");
       self.$bvModal.show("modal-profile-auth");
@@ -100,6 +114,7 @@ name: "Payment",
   margin-top: 16px;
   text-align: center;
 }
+
 .payment-loading-container {
   width: 100%;
   text-align: center;
