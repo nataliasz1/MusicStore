@@ -6,7 +6,8 @@
         style="object-fit: cover">
       <b-row no-gutters>
         <b-col md="3">
-          <b-card-img src="https://via.placeholder.com/500"></b-card-img>
+          <b-card-img v-if="product.images.length > 0" :src="product.images[0].img_url" class="search-item-image"/>
+          <b-card-img v-if="product.images.length === 0" src="../assets/guitar.png" class="search-item-image"/>
         </b-col>
         <b-col md="9">
           <b-card-body :title="product.name" class="text-right">
@@ -29,5 +30,8 @@ export default {
 </script>
 
 <style scoped>
-
+.search-item-image {
+  max-height: 200px;
+  width: auto;
+}
 </style>

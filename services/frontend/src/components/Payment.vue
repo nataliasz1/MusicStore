@@ -7,8 +7,8 @@
       <b-spinner style="width: 3rem; height: 3rem;" variant="primary"></b-spinner>
     </div>
     <div :hidden="loading" id="paypal-button-container"></div>
-    <b-button variant="primary" @click="simulatePayment" class="mb-2">DEBUG: Kup na zeszyt</b-button><br>
-    <b-button variant="danger" @click="$router.push('/cart')">Anuluj</b-button>
+    <b-button variant="primary" @click="simulatePayment" class="mb-2" v-if="!loadingPayment">DEBUG: Kup na zeszyt</b-button><br>
+    <b-button variant="danger" @click="$router.push('/cart')" v-if="!loadingPayment">Anuluj</b-button>
   </div>
 </template>
 
@@ -60,7 +60,8 @@ export default {
 
       onApprove: function (data, actions) {
         return actions.order.capture().then(function (details) {
-          alert('Transaction completed by ' + details.payer.name.given_name + '!');
+          console.log('Transaction completed by ' + details.payer.name.given_name + '!');
+          self.simulatePayment();
         });
       }
 

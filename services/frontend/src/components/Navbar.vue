@@ -24,14 +24,14 @@
             <b-nav-form v-if="this.$parent.$data.isScrolled" class="nav-search">
               <b-form-input size="md" class="mr-md-2 nav-search-bar"
                             placeholder="Jakiego produktu szukasz?" v-model="prodName"></b-form-input>
-              <b-button size="md" class="my-2 my-sm-0" variant="primary" @click="$router.push('/search?name='+prodName)">
+              <b-button size="md" class="my-2 my-sm-0" variant="primary" @click="search">
                 SZUKAJ
               </b-button>
             </b-nav-form>
             <b-nav-form v-else class="nav-search">
               <b-form-input size="lg" class="mr-lg-2 nav-search-bar"
                             placeholder="Jakiego produktu szukasz?" v-model="prodName"></b-form-input>
-              <b-button size="lg" class="my-2 my-sm-0" variant="primary" @click="$router.push('/search?name='+prodName)">
+              <b-button size="lg" class="my-2 my-sm-0" variant="primary" @click="search">
                 SZUKAJ
               </b-button>
             </b-nav-form>
@@ -59,6 +59,16 @@ export default {
       categories: [],
       user: null,
       prodName: null
+    }
+  },
+  methods: {
+    search: function (){
+      if(this.prodName){
+        this.$router.push('/search?name='+this.prodName)
+      }
+      else {
+        this.$router.push('/search');
+      }
     }
   },
   mounted() {

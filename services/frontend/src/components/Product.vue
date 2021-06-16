@@ -12,7 +12,9 @@
         <b-row no-gutters>
           <b-col xl="6">
             <b-card-img v-b-modal:product-modal src="https://via.placeholder.com/500"
-                        style="max-width: 500px; max-height: 500px"></b-card-img>
+                        style="max-width: 500px; max-height: 500px" v-if="product.images.length === 0"></b-card-img>
+            <b-card-img v-b-modal:product-modal :src="product.images[0].img_url"
+                        style="max-width: 500px; max-height: 500px" v-if="product.images.length > 0"></b-card-img>
           </b-col>
           <b-col xl="6">
             <b-card-body :title="product.name"
@@ -32,7 +34,8 @@
       </b-card>
       <b-modal id="product-modal" title="Zdjęcie" ok-only ok-title="Zamknij">
         <b-card>
-          <b-card-img src="../assets/guitar.png"/>
+          <b-card-img v-if="product.images.length > 0" :src="product.images[0].img_url"/>
+          <b-card-img v-if="product.images.length === 0" src="../assets/guitar.png"/>
         </b-card>
       </b-modal>
       <b-navbar variant="light" class="navbar-sticky shadow-sm mt-4">
