@@ -18,7 +18,7 @@
             <h5 primary>WCZYTYWANIE DANYCH</h5>
             <b-spinner style="width: 3rem; height: 3rem;" variant="primary"></b-spinner>
           </div>
-          <p v-if="orders.length === 0">brak zamówień</p>
+          <p v-if="orders.length === 0 && !loading">brak zamówień</p>
           <OrderBox v-for="order in orders" :key="order.order_id" v-bind:order="order"></OrderBox>
         </b-card>
       </b-col>

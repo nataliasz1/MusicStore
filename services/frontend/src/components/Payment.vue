@@ -2,11 +2,12 @@
   <div class="payment-container">
     <h4 v-if="!loading" class="mb-4">Do zapłaty: {{ totalPrice }} PLN</h4>
     <div v-if="loading" class="payment-loading-container">
-      <h5 primary>WCZYTYWANIE DANYCH</h5>
+      <h5 primary>PRZETWARZANIE DANYCH</h5>
+      <h5 v-if="loadingPayment">Zatwierdzanie zamówienia w toku</h5>
       <b-spinner style="width: 3rem; height: 3rem;" variant="primary"></b-spinner>
     </div>
     <div :hidden="loading" id="paypal-button-container"></div>
-    <b-button variant="primary" @click="simulatePayment">Kup na zeszyt</b-button>
+    <b-button variant="primary" @click="simulatePayment" class="mb-2">DEBUG: Kup na zeszyt</b-button><br>
     <b-button variant="danger" @click="$router.push('/cart')">Anuluj</b-button>
   </div>
 </template>
@@ -21,14 +22,20 @@ export default {
       user: null,
       products: [],
       loading: true,
+      loadingPayment: false,
       totalPrice: 0
     }
   },
   methods: {
     simulatePayment: function (){
+      this.loading = true;
+      this.loadingPayment = true;
       axios.get('/api/order/order/?user_id=' + this.user.id).then(
           response => {
             console.log(response.data);
+            if(response.data.success){
+              this.$router.push("/profile")
+            }
           }
       ).catch(function (error){
         console.log(error);

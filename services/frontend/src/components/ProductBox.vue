@@ -13,7 +13,7 @@
     <b-card v-if="product.images.length > 0"
         bg-variant="light"
         :title="product.name"
-        :img-src="product.images[0].file"
+        :img-src="product.images[0].img_url"
         img-bottom
         img-height="300px"
         style="max-width: 384px; height: 100%;">
