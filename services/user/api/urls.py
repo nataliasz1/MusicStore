@@ -17,6 +17,7 @@ from allauth.account.views import confirm_email
 from django.conf.urls import url
 from django.contrib import admin
 from django.urls import path, include
+from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 
 from api import views
 
@@ -28,3 +29,5 @@ urlpatterns = [
     url(r'^accounts-rest/registration/account-confirm-email/(?P<key>.+)/$', confirm_email, name='account_confirm_email'),
     path("test-endpoint/", views.test_endpoint),
 ]
+
+urlpatterns += staticfiles_urlpatterns()

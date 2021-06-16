@@ -49,7 +49,7 @@ class CatalogItemsApiView(ListAPIView):
 class CatalogCategoriesListView(ListAPIView):
     queryset = Category.objects.all()
     serializer_class = CategorySerializer
-    filter_backends = [DjangoFilterBackend]
+    filter_backends = (DjangoFilterBackend,)
     filterset_fields = ['name']
 
     def list(self, request, *args, **kwargs):

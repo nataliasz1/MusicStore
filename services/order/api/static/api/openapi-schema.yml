@@ -3,6 +3,26 @@ info:
   title: ''
   version: ''
 paths:
+  /orders/user-id/{user_id}:
+    get:
+      operationId: getOrdersPerUserOrder
+      description: ''
+      parameters:
+      - name: user_id
+        in: path
+        required: true
+        description: ''
+        schema:
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Order'
+          description: ''
+      tags:
+      - orders
   /orders/:
     get:
       operationId: listOrders
@@ -36,6 +56,26 @@ paths:
               $ref: '#/components/schemas/Order'
       responses:
         '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Order'
+          description: ''
+      tags:
+      - orders
+  /orders/user-id/{user_id}/:
+    get:
+      operationId: getOrdersPerUserOrder
+      description: ''
+      parameters:
+      - name: user_id
+        in: path
+        required: true
+        description: ''
+        schema:
+          type: string
+      responses:
+        '200':
           content:
             application/json:
               schema:
@@ -433,8 +473,32 @@ components:
         order_items:
           type: array
           items:
-            type: string
-          readOnly: true
+            type: object
+            properties:
+              order_item_id:
+                type: integer
+                readOnly: true
+              order_id:
+                type: string
+                readOnly: true
+              catalog_item_id:
+                type: integer
+                maximum: 2147483647
+                minimum: 0
+              quantity:
+                type: integer
+                maximum: 2147483647
+                minimum: 0
+              price:
+                type: string
+                format: decimal
+                multipleOf: 0.01
+                maximum: 100000
+                minimum: -100000
+            required:
+            - catalog_item_id
+            - quantity
+            - price
         payments:
           type: array
           items:
@@ -442,11 +506,15 @@ components:
           readOnly: true
       required:
       - total_amount
+      - order_items
     OrderItem:
       type: object
       properties:
         order_item_id:
           type: integer
+          readOnly: true
+        order_id:
+          type: string
           readOnly: true
         catalog_item_id:
           type: integer
@@ -462,13 +530,10 @@ components:
           multipleOf: 0.01
           maximum: 100000
           minimum: -100000
-        order_id:
-          type: integer
       required:
       - catalog_item_id
       - quantity
       - price
-      - order_id
     Payment:
       type: object
       properties:
@@ -482,12 +547,7 @@ components:
           - '2'
           - '3'
           type: string
-        user_id:
-          type: integer
-          maximum: 2147483647
-          nullable: true
-          minimum: 0
-        order_id:
+        order:
           type: integer
       required:
-      - order_id
+      - order

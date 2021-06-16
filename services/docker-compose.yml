@@ -6,6 +6,7 @@ services:
     build: ./catalog
     command: bash -c "python3 ./manage.py makemigrations &&
                       python3 ./manage.py migrate &&
+                      python3 ./manage.py collectstatic --noinput &&
                       gunicorn api.wsgi:application --bind 0.0.0.0:8002"
     ports:
       - 8002:8002
@@ -21,6 +22,7 @@ services:
     build: ./user
     command: bash -c "python3 ./manage.py makemigrations &&
                       python3 ./manage.py migrate &&
+                      python3 ./manage.py collectstatic --noinput &&
                       gunicorn api.wsgi:application --bind 0.0.0.0:8003"
     ports:
       - 8003:8003
@@ -36,6 +38,7 @@ services:
     build: ./basket
     command: bash -c "python3 ./manage.py makemigrations &&
                       python3 ./manage.py migrate &&
+                      python3 ./manage.py collectstatic --noinput &&
                       gunicorn api.wsgi:application --bind 0.0.0.0:8004"
     ports:
       - 8004:8004
@@ -50,8 +53,9 @@ services:
     image: order-web:latest
     build: ./order
     command: bash -c "python3 ./manage.py makemigrations &&
-      python3 ./manage.py migrate &&
-      gunicorn api.wsgi:application --bind 0.0.0.0:8005"
+                      python3 ./manage.py migrate &&
+                      python3 ./manage.py collectstatic --noinput &&
+                      gunicorn api.wsgi:application --bind 0.0.0.0:8005"
     ports:
       - 8005:8005
     restart: always
@@ -60,14 +64,6 @@ services:
     networks:
       - backend
       - frontend
-
-#  postgres-db:
-#   image: postgres
-#   restart: always
-#   environment:
-#     POSTGRES_PASSWORD: example
-#   networks:
-#     - backend
 
   vue-frontend:
    image: vue-frontend:latest
