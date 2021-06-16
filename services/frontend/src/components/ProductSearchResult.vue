@@ -6,8 +6,8 @@
         style="object-fit: cover">
       <b-row no-gutters>
         <b-col md="3">
-          <b-card-img v-if="product.images.length > 0" :src="product.images[0].img_url" class="search-item-image"/>
-          <b-card-img v-if="product.images.length === 0" src="../assets/guitar.png" class="search-item-image"/>
+          <b-card-img v-if="product.images.length > 0" :src="product.images[0].img_url" class="search-item-image img-fluid"/>
+          <b-card-img v-if="product.images.length === 0" src="../assets/guitar.png" class="search-item-image img-fluid"/>
         </b-col>
         <b-col md="9">
           <b-card-body :title="product.name" class="text-right">

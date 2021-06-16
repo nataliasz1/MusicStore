@@ -95,6 +95,9 @@ export default {
     if(this.$route.query.name){
       this.name = this.$route.query.name;
     }
+    if(this.$route.query.category){
+      this.category = this.$route.query.category;
+    }
     this.fetchData();
     axios.get('/api/catalog/categories/').then(
         response => {
