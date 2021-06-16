@@ -24,7 +24,7 @@ def addProduct(request):
         
         basket_serializer = BasketSessionSerializer(queryset, many=True) 
         product = request.data["product_id"]
-       # response = requests.get("http://127.0.0.1:8003/product/basket/?prod_id=%d" % product).json() 
+      #  response = requests.get("http://127.0.0.1:8003/product/basket/?prod_id=%d" % product).json() 
         response = requests.get("http://catalog-web:8002/product/basket/?prod_id=%d" % product).json()
         #print(response)
         if  type(response) is dict:

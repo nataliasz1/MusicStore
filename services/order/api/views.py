@@ -49,7 +49,7 @@ def create_order(request):
 
     order_serializer = OrderSerializer(queryset, many=True) 
 
-    for i in range (0, len(response)):
+    for i in range (len(response)):
         order_item = OrderItem()
         order_item.order_id = Order.objects.filter(order_id=order_serializer.data[0]['order_id']).first()
         order_item.catalog_item_id = response[i]['catalog_item_id']
@@ -57,9 +57,10 @@ def create_order(request):
         order_item.quantity = response[i]["quantity"]
         order_item.price = requests.get("http://catalog-web:8002/product/basket/?prod_id=%d" % order_item.catalog_item_id).json()[0]['price']
       #  order_item.price = requests.get("http://127.0.0.1:8003/product/basket/?prod_id=%d" % order_item.catalog_item_id).json()[0]['price']
+        print(order_item.price)
         order_item.save()
         order = Order.objects.filter(order_id=order_serializer.data[0]['order_id'])
-        order.update(total_amount=order_item.price+order_item.price)
+        order.update(total_amount=+float(order_item.price))
         order.first().save()
 
     queryAfter= Order.objects.all().count()
