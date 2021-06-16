@@ -1,34 +1,27 @@
-from django import forms
-import os
-import pyrebase
-from api.settings import BASE_DIR
-import json
+import uuid
 
+from django import forms
+from django.core.files.storage import FileSystemStorage
+
+from api.settings import DJANGO_FILES_FOLDER
+from .fibase_config import storage
 from .models import ProductImage, CatalogItem
 
-from .settings import FIREBASE_CONFIG_FILE
 
-conf = ''
-
-FIREBASE_FILE_PATH = os.path.join(BASE_DIR, FIREBASE_CONFIG_FILE)
-with open(FIREBASE_FILE_PATH, "r") as read_file:
-    j = json.load(read_file)
-
-config = j
-firebase = pyrebase.initialize_app(config)
-#storageRef = firebase.storage().ref()
-
-class MyProductImage(forms.ModelForm):
-    image_id = forms.IntegerField()
+class CatalogItemForm(forms.ModelForm):
     catalog_item_id = forms.ModelChoiceField(queryset=CatalogItem.objects.all())
-       
-    
     file = forms.FileField()
-
-    #def save(self, file):
-        
-       # storageRef.child('images/mountains.jpg').put(file)
 
     class Meta:
         model = ProductImage
         fields = "__all__"
+
+    def save(self, commit=True):
+        file = self.cleaned_data.get('file')
+        fs = FileSystemStorage(location=DJANGO_FILES_FOLDER)
+        local_file = fs.save(file.name, file)
+        unique_file_id = str(uuid.uuid4())
+        storage.child(unique_file_id).put(fs.path(local_file))
+        self.instance.file = unique_file_id
+        fs.delete(local_file)
+        return super().save(commit)

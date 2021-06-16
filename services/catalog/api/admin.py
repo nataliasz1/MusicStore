@@ -1,15 +1,15 @@
 from django.contrib import admin
 
-from .models import CatalogItem, Opinion, Category, ProductImage
+from .forms import CatalogItemForm
+from .models import Opinion, Category, ProductImage, CatalogItem
 
-from .forms import MyProductImage
 
-class MyModelAdmin(admin.ModelAdmin):
-    form = MyProductImage
-admin.site.register(ProductImage, MyModelAdmin)
+class CatalogItemAdmin(admin.ModelAdmin):
+    form = CatalogItemForm
+
+
+admin.site.register(ProductImage, CatalogItemAdmin)
 
 admin.site.register(CatalogItem)
 admin.site.register(Opinion)
 admin.site.register(Category)
-#admin.site.register(ProductImage)
-

@@ -1,12 +1,18 @@
 from rest_framework import serializers
 
+from .fibase_config import storage
 from .models import CatalogItem, Opinion, Category, ProductImage
 
 
 class ProductImageSerializer(serializers.ModelSerializer):
+    img_url = serializers.SerializerMethodField()
+
     class Meta:
         model = ProductImage
-        fields = "__all__"
+        fields = ('image_id', 'catalog_item_id', 'added', 'img_url')
+
+    def get_img_url(self, obj):
+        return storage.child(obj.file).get_url('')
 
 
 class CatalogItemSerializer(serializers.ModelSerializer):
