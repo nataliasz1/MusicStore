@@ -6,15 +6,15 @@
         style="object-fit: cover">
       <b-row no-gutters>
         <b-col md="3">
-          <b-card-img src="../assets/guitar.png"></b-card-img>
+          <b-card-img v-if="product.images.length > 0" :src="product.images[0].img_url" class="search-item-image img-fluid"/>
+          <b-card-img v-if="product.images.length === 0" src="../assets/guitar.png" class="search-item-image img-fluid"/>
         </b-col>
         <b-col md="9">
-          <b-card-body title="Jakaś gitara akustyczna" class="text-right">
-            <p>Szczegóły</p>
-            <p>Więcej szczegółów</p>
+          <b-card-body :title="product.name" class="text-right">
+            <p>{{product.description}}</p>
             <b-card-text right class="text-primary">
-              <b-card-text class="h3">999,99 PLN</b-card-text>
-              <b-button variant="primary" @click="$router.push('product')">Sprawdź</b-button>
+              <b-card-text class="h3">{{ product.price }}</b-card-text>
+              <b-button variant="primary" @click="$router.push('/product/' + product.catalog_item_id)">Sprawdź</b-button>
             </b-card-text>
           </b-card-body>
         </b-col>
@@ -24,10 +24,14 @@
 </template>
 <script>
 export default {
-  name: "ProductSearchResult"
+  name: "ProductSearchResult",
+  props: ['product']
 }
 </script>
 
 <style scoped>
-
+.search-item-image {
+  max-height: 200px;
+  width: auto;
+}
 </style>

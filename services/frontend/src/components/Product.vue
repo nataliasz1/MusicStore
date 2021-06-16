@@ -12,7 +12,9 @@
         <b-row no-gutters>
           <b-col xl="6">
             <b-card-img v-b-modal:product-modal src="https://via.placeholder.com/500"
-                        style="max-width: 500px; max-height: 500px"></b-card-img>
+                        style="max-width: 500px; max-height: 500px" v-if="product.images.length === 0"></b-card-img>
+            <b-card-img v-b-modal:product-modal :src="product.images[0].img_url"
+                        style="max-width: 500px; max-height: 500px" v-if="product.images.length > 0"></b-card-img>
           </b-col>
           <b-col xl="6">
             <b-card-body :title="product.name"
@@ -23,7 +25,8 @@
               </b-card-text>
               <div class="price-button-container">
                 <p>{{ product.price }} PLN</p>
-                <b-button variant="primary" @click="addToCart(product)">DO KOSZYKA</b-button>
+                <b-button v-if="!adding" :disabled="!$session.has('key')" variant="primary" @click="addToCart(product)">DO KOSZYKA</b-button>
+                <b-spinner v-if="adding" style="width: 3rem; height: 3rem;" variant="primary"></b-spinner>
               </div>
             </b-card-body>
           </b-col>
@@ -31,7 +34,8 @@
       </b-card>
       <b-modal id="product-modal" title="Zdjęcie" ok-only ok-title="Zamknij">
         <b-card>
-          <b-card-img src="../assets/guitar.png"/>
+          <b-card-img v-if="product.images.length > 0" :src="product.images[0].img_url"/>
+          <b-card-img v-if="product.images.length === 0" src="../assets/guitar.png"/>
         </b-card>
       </b-modal>
       <b-navbar variant="light" class="navbar-sticky shadow-sm mt-4">
@@ -82,7 +86,8 @@ export default {
         }],
       product: null,
       opinions: [],
-      averageStars: 0
+      averageStars: 0,
+      adding: false
     }
   },
   methods: {
@@ -117,16 +122,31 @@ export default {
       });
     },
     addToCart: function (product) {
-      axios.post('/api/basket/basket/add/', {product}).then(
+      this.adding=true;
+      axios.get('/api/user/rest-auth/user/', { headers: { 'Authorization': "Token " + this.$session.get("key") }, withCredentials: true }).then(
           response => {
-            console.log(response)
+            console.log(response.data);
+            axios.post('/api/basket/basket/add/?user_id=' + response.data.id, {
+              "product_id": product.catalog_item_id,
+              "quantity": 1
+            }).then(
+                response => {
+                  console.log(response);
+                  this.$router.push('/cart');
+                }
+            )
           }
-      )
+      ).catch(function (error){
+        console.log(error);
+        self.$bvModal.show("modal-profile-auth");
+        self.$session.remove("key");
+        self.$router.push("/login");
+      });
     }
   },
   mounted() {
     this.product = null;
-    axios.get('/api/catalog/product/' + this.$route.params.slug).then(
+    axios.get('/api/catalog/products/' + this.$route.params.id).then(
         response => {
           this.product = response.data[0];
           console.log(response.data[0]);
@@ -187,5 +207,10 @@ export default {
   position: absolute;
   right: 0px;
   top: 0px;
+}
+
+.product-cart-container {
+  text-align: center;
+  width: 100%;
 }
 </style>

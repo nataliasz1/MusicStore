@@ -6,13 +6,13 @@ metadata:
     kompose.version: 1.21.0 (992df58d8)
   creationTimestamp: null
   labels:
-    io.kompose.service: catalog-web
-  name: catalog-web
+    io.kompose.service: basket-web
+  name: order-web
 spec:
   replicas: 1
   selector:
     matchLabels:
-      io.kompose.service: catalog-web
+      io.kompose.service: order-web
   strategy: {}
   template:
     metadata:
@@ -23,22 +23,22 @@ spec:
       labels:
         io.kompose.network/backend: "true"
         io.kompose.network/frontend: "true"
-        io.kompose.service: catalog-web
+        io.kompose.service: order-web
     spec:
       containers:
       - args:
         - bash
         - -c
         - python3 ./manage.py makemigrations && python3 ./manage.py migrate
-          && gunicorn api.wsgi:application --bind 0.0.0.0:8002
+          && gunicorn api.wsgi:application --bind 0.0.0.0:8005
         env:
-          - name: DJANGO_SUPERUSER_PASSWORD
-            value: admin
-        image: ersmsmusicstore.azurecr.io/catalog-web:latest
+        - name: DJANGO_SUPERUSER_PASSWORD
+          value: admin
+        image: ersmsmusicstore.azurecr.io/order-web:latest
         imagePullPolicy: Always
-        name: catalog-web
+        name: order-web
         ports:
-        - containerPort: 8002
+        - containerPort: 8004
         resources: {}
       restartPolicy: Always
       serviceAccountName: ""

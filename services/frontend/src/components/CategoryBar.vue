@@ -3,7 +3,7 @@
     <b-navbar variant="light" class="shadow">
       <div class="catbar-container">
         <b-navbar-nav tabs fill>
-          <b-nav-item v-for="category in categories" :key="category.category_id" @click="$router.push('/search')">
+          <b-nav-item v-for="category in categories" :key="category.category_id" @click="$router.push('/search?category='+category.id)">
             {{ category.name }}
           </b-nav-item>
         </b-navbar-nav>

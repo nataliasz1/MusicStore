@@ -23,20 +23,21 @@
                         v-bind:class="{'nav-buttons': !this.$parent.$data.isScrolled,  'nav-buttons-thin': this.$parent.$data.isScrolled}">
             <b-nav-form v-if="this.$parent.$data.isScrolled" class="nav-search">
               <b-form-input size="md" class="mr-md-2 nav-search-bar"
-                            placeholder="Jakiego produktu szukasz?"></b-form-input>
-              <b-button size="md" class="my-2 my-sm-0" variant="primary" type="submit" @click="$router.push('/search')">
+                            placeholder="Jakiego produktu szukasz?" v-model="prodName"></b-form-input>
+              <b-button size="md" class="my-2 my-sm-0" variant="primary" @click="search">
                 SZUKAJ
               </b-button>
             </b-nav-form>
             <b-nav-form v-else class="nav-search">
               <b-form-input size="lg" class="mr-lg-2 nav-search-bar"
-                            placeholder="Jakiego produktu szukasz?"></b-form-input>
-              <b-button size="lg" class="my-2 my-sm-0" variant="primary" type="submit" @click="$router.push('/search')">
+                            placeholder="Jakiego produktu szukasz?" v-model="prodName"></b-form-input>
+              <b-button size="lg" class="my-2 my-sm-0" variant="primary" @click="search">
                 SZUKAJ
               </b-button>
             </b-nav-form>
             <b-nav-item>
-              <b-button variant="primary" class="nav-button" @click="$router.push('/profile')">MOJE KONTO</b-button>
+              <b-button v-if="!$session.get('key')" variant="primary" class="nav-button" @click="$router.push('/profile')">MOJE KONTO</b-button>
+              <b-button v-if="$session.get('key') && user.id" variant="primary" class="nav-button" @click="$router.push('/profile')">MOJE KONTO ({{user.email}})</b-button>
             </b-nav-item>
             <b-nav-item>
               <b-button variant="primary" class="nav-button" @click="$router.push('/cart')">KOSZYK</b-button>
@@ -55,16 +56,41 @@ export default {
   name: "Navbar",
   data: function () {
     return {
-      categories: []
+      categories: [],
+      user: null,
+      prodName: null
+    }
+  },
+  methods: {
+    search: function (){
+      if(this.prodName){
+        this.$router.push('/search?name='+this.prodName)
+      }
+      else {
+        this.$router.push('/search');
+      }
     }
   },
   mounted() {
+    let self = this;
     axios.get('/api/catalog/categories/').then(
         response => {
           this.categories = response.data;
           console.log(response.data)
         }
     )
+    if(this.$session.has("key")){
+      axios.get('/api/user/rest-auth/user/', {withCredentials: true, headers: { 'Authorization': "Token " + this.$session.get("key") }}).then(
+          response => {
+            console.log(response.data);
+            this.user = response.data;
+          }
+      ).catch(function (error){
+        console.log(error);
+        self.$session.remove("key");
+        self.$bvModal.show("modal-profile-auth");
+      });
+    }
   }
 }
 </script>

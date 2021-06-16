@@ -56,9 +56,6 @@ class CatalogItem(models.Model):
         verbose_name = _("Product")
         verbose_name_plural = _("Products")
 
-    #  def get_absolute_url(self):
-    ##      return reverse("catalog_service:slug", args=[self.slug])
-
     def __str__(self):
         return self.name
 
@@ -90,3 +87,6 @@ class ProductImage(models.Model):
     catalog_item_id = models.ForeignKey(CatalogItem, related_name='images', on_delete=models.CASCADE)
     file = models.CharField(max_length=200)
     added = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f'Image {self.image_id} for {self.catalog_item_id.name}'

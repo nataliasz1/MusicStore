@@ -4,7 +4,10 @@ import uuid
 from statistics import median
 
 import pyrebase
+from django_filters import rest_framework as filters
+from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.decorators import api_view
+from rest_framework.generics import ListAPIView
 from rest_framework.response import Response
 
 from api.settings import BASE_DIR
@@ -23,6 +26,36 @@ firebase = pyrebase.initialize_app(config)
 storage = firebase.storage()
 
 
+class CatalogItemFilter(filters.FilterSet):
+    name = filters.CharFilter(field_name="name", lookup_expr='icontains')
+    min_price = filters.NumberFilter(field_name="price", lookup_expr='gte')
+    max_price = filters.NumberFilter(field_name="price", lookup_expr='lte')
+
+    class Meta:
+        model = CatalogItem
+        fields = ['name', 'category', 'min_price', 'max_price', 'stars']
+
+
+class CatalogItemsApiView(ListAPIView):
+    queryset = CatalogItem.objects.all()
+    serializer_class = CatalogItemSerializer
+    filter_backends = (filters.DjangoFilterBackend,)
+    filterset_class = CatalogItemFilter
+
+    def list(self, request, *args, **kwargs):
+        return super().list(request, *args, **kwargs)
+
+
+class CatalogCategoriesListView(ListAPIView):
+    queryset = Category.objects.all()
+    serializer_class = CategorySerializer
+    filter_backends = (DjangoFilterBackend,)
+    filterset_fields = ['name']
+
+    def list(self, request, *args, **kwargs):
+        return super().list(request, *args, **kwargs)
+
+
 @api_view(http_method_names=["GET"])
 def getItems(request):
     if request.method == 'GET':
@@ -36,10 +69,9 @@ def getItems(request):
 
 
 @api_view(http_method_names=["GET"])
-def getItem(request, slug):
+def getItem(request, item_id):
     if request.method == 'GET':
-        lookup_field = 'slug'
-        queryset = CatalogItem.objects.filter(slug=slug)
+        queryset = CatalogItem.objects.filter(catalog_item_id=item_id)
         if queryset.count() != 0:
             serializer_class = CatalogItemSerializer(queryset, many=True)
 

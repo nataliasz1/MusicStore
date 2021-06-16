@@ -28,6 +28,7 @@ INSTALLED_APPS = [
     'api',
     'corsheaders',
     'rest_framework',
+    'django_extensions'
 ]
 
 # Middleware framework
@@ -67,10 +68,28 @@ WSGI_APPLICATION = 'api.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/2.1/ref/settings/#databases
+# TODO – Move all creads to .env file
+POSTGRES_HOST = os.environ.get('POSTGRES_HOST', default="ec2-54-220-53-223.eu-west-1.compute.amazonaws.com")
+POSTGRES_DB = os.environ.get('POSTGRES_DB', default="d2j9sc39u03m7")
+POSTGRES_USER = os.environ.get('POSTGRES_USER', default="srxcrdmbedglpr")
+POSTGRES_PASSWORD = os.environ.get('POSTGRES_PASSWORD',
+                                   default="f60781f913431d429418b8cce31cdac7c8222b8385f9c05d34fcba3389488f4e")
+
+# TODO - Only for debbug purposes
+if (False):
+    print(f'POSTGRES_HOST: {POSTGRES_HOST}\n'
+          f'POSTGRES_DB: {POSTGRES_DB}\n',
+          f'POSTGRES_USER: {POSTGRES_USER}\n'
+          f'POSTGRES_PASSWORD: {POSTGRES_PASSWORD}\n')
+
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': POSTGRES_DB,
+        'USER': POSTGRES_USER,
+        'PASSWORD': POSTGRES_PASSWORD,
+        'HOST': POSTGRES_HOST,
+        'PORT': 5432,
     }
 }
 
@@ -99,9 +118,10 @@ USE_I18N = True
 USE_L10N = True
 USE_TZ = True
 
-CORS_ORIGIN_ALLOW_ALL = True # If this is used then `CORS_ORIGIN_WHITELIST` will not have any effect
+CORS_ORIGIN_ALLOW_ALL = True  # If this is used then `CORS_ORIGIN_WHITELIST` will not have any effect
 CORS_ALLOW_CREDENTIALS = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.1/howto/static-files/
 STATIC_URL = '/static/'
+STATIC_ROOT = posixpath.join(*(BASE_DIR.split(os.path.sep) + ['static']))
