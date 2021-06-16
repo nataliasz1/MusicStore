@@ -23,5 +23,7 @@ urlpatterns = [
     path("basket/change/", views.changeQuantity),
     path("basket/removeItem/", views.removeItem),
     path("basket/", views.basket),
-    path("basket/remove/", views.removeBasket)
+    path("basket/remove/", views.removeBasket),
+    path("basket/createOrder/", views.createOrder)
+
 ]

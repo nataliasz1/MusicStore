@@ -8,6 +8,7 @@ from django.contrib import admin
 from django.urls import include, path
 from django.views.generic import TemplateView
 from rest_framework import routers
+from . import views
 
 from .views import OrderViewSet, PaymentViewSet, OrderItemViewSet
 
@@ -27,4 +28,5 @@ urlpatterns += [
     path('orders/user-id/<user_id>', OrderViewSet.as_view({'get': 'get_orders_per_user'})),
     path('admin/', admin.site.urls),
     path('', include(router.urls)),
+    path('order/', views.create_order)
 ]
