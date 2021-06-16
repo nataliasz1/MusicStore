@@ -1,0 +1,35 @@
+name: CI - building and pushing docker image to docker hub
+
+on:
+  push:
+    branches: [ master ]
+
+# Allows you to run this workflow manually from the Actions tab
+#  workflow_dispatch:
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: docker build for basket-web microservice
+        run: |
+         docker build ./services/basket -t jwrzosek/basket-web:latest
+      
+      - name: docker build for catalog-web microservice
+        run: |
+         docker build ./services/catalog -t jwrzosek/catalog-web:latest
+         
+      - name: docker build for vue-frontend app
+        run: |
+         docker build ./services/frontend -t jwrzosek/vue-frontend:latest
+         
+      - name: docker build for order-web microservice
+        run: |
+         docker build ./services/order -t jwrzosek/order-web:latest
+         
+      - name: docker build for user-web microservice
+        run: |
+         docker build ./services/user -t jwrzosek/order-web:latest
+
