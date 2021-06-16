@@ -113,6 +113,8 @@ DATABASES = {
 }
 
 FIREBASE_CONFIG_FILE = 'firebase.json'
+FILES_DIR = 'temp_files'
+DJANGO_FILES_FOLDER = os.path.join(PROJECT_DIR, FILES_DIR)
 
 # Password validation
 # https://docs.djangoproject.com/en/2.0/ref/settings/#auth-password-validators
