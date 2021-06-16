@@ -39,11 +39,11 @@ jobs:
         run: |
          docker build ./services/user -t jwrzosek/order-web:latest
       
-#      - name: docker push
-#        run: |
-#          docker push jwrzosek/basket-web:latest
-#          docker push jwrzosek/catalog-web:latest
-#          docker push jwrzosek/vue-frontend:latest
-#          docker push jwrzosek/order-web:latest
-#          docker push jwrzosek/order-web:latest#
+      - name: docker push
+        run: |
+          docker push jwrzosek/basket-web:latest
+          docker push jwrzosek/catalog-web:latest
+          docker push jwrzosek/vue-frontend:latest
+          docker push jwrzosek/order-web:latest
+          docker push jwrzosek/order-web:latest#
 
