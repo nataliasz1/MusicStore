@@ -38,8 +38,8 @@ def create_order(request):
     if user_id == None:
         user_id = uuid.uuid4()
 
-  #  response = requests.get("http://basket-web:8004/basket/createOrder/?user_id=%d" % int(user_id)).json()
-    response = requests.get("http://127.0.0.1:8002/basket/createOrder/?user_id=%d" % int(user_id)).json()
+    response = requests.get("http://basket-web:8004/basket/createOrder/?user_id=%d" % int(user_id)).json()
+   # response = requests.get("http://127.0.0.1:8002/basket/createOrder/?user_id=%d" % int(user_id)).json()
     queryBefore= Order.objects.all().count()
     order = Order()
     order.user_id = user_id
@@ -57,8 +57,8 @@ def create_order(request):
         order_item.catalog_item_id = response[i]['catalog_item_id']
             
         order_item.quantity = response[i]["quantity"]
-      #  order_item.price = requests.get("http://catalog-web:8002/product/basket/?prod_id=%d" % order_item.catalog_item_id).json()[0]['price']
-        order_item.price = requests.get("http://127.0.0.1:8003/product/basket/?prod_id=%d" % order_item.catalog_item_id).json()[0]['price']
+        order_item.price = requests.get("http://catalog-web:8002/product/basket/?prod_id=%d" % order_item.catalog_item_id).json()[0]['price']
+      #  order_item.price = requests.get("http://127.0.0.1:8003/product/basket/?prod_id=%d" % order_item.catalog_item_id).json()[0]['price']
         print(order_item.price)
         prices += (order_item.price*order_item.quantity)
         order_item.save()
