@@ -29,13 +29,17 @@ spec:
       - args:
         - bash
         - -c
-        - python3 ./manage.py makemigrations && python3 ./manage.py migrate
+        - python3 ./manage.py makemigrations && python3 ./manage.py migrate &&
+          python3 ./manage.py collectstatic --noinput
           && gunicorn api.wsgi:application --bind 0.0.0.0:8004
         env:
         - name: DJANGO_SUPERUSER_PASSWORD
-          value: admin
-        image: ersmsmusicstore.azurecr.io/basket-web:latest
-        imagePullPolicy: Always
+          valueFrom:
+            secretKeyRef:
+              name: django-admin-secret
+              key: django-admin-password
+        image: basket-web:latest
+        imagePullPolicy: Never
         name: basket-web
         ports:
         - containerPort: 8004
