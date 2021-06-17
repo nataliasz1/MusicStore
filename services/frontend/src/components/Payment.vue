@@ -1,49 +1,53 @@
 <template>
-  <div class="cart-container">
-    <b-breadcrumb :items="breadcrumbs"></b-breadcrumb>
-    <b-row no-gutters>
-      <b-col md="9">
-        <div v-if="loading" class="cart-loading-container">
-          <h5 primary>WCZYTYWANIE DANYCH</h5>
-          <b-spinner style="width: 3rem; height: 3rem;" variant="primary"></b-spinner>
-        </div>
-        <div v-if="!loading">
-          <CartItem v-for="product in products" :key="product.slug" v-bind:product="product"></CartItem>
-        </div>
-      </b-col>
-      <b-col md="3">
-        <p class="h3">Do zapłaty: {{ totalPrice }} PLN</p>
-        <b-button :disabled="loading || products.length===0" variant="primary" @click="$router.push('/pay')">Kupuję i płacę</b-button>
-      </b-col>
-    </b-row>
+  <div class="payment-container">
+    <h4 v-if="!loading" class="mb-4">Do zapłaty: {{totalPrice}} PLN</h4>
+    <div v-if="loading" class="payment-loading-container">
+      <h5 primary>WCZYTYWANIE DANYCH</h5>
+      <b-spinner style="width: 3rem; height: 3rem;" variant="primary"></b-spinner>
+    </div>
+    <div :hidden="loading" id="paypal-button-container"></div>
+    <b-button variant="danger" @click="$router.push('/cart')">Anuluj</b-button>
   </div>
 </template>
+
 <script>
-import CartItem from "@/components/CartItem";
 import axios from "axios";
 
 export default {
-  name: "Cart",
-  components: {CartItem},
+name: "Payment",
   data: function () {
     return {
-      breadcrumbs: [
-        {
-          text: 'Home',
-          to: '/'
-        },
-        {
-          text: 'Koszyk',
-          href: '#'
-        }],
-      products: [],
-      totalPrice: 0,
       user: null,
-      loading: true
+      products: [],
+      loading: true,
+      totalPrice: 0
     }
   },
   mounted() {
     let self = this;
+    // eslint-disable-next-line no-undef
+    paypal.Buttons({
+
+      createOrder: function(data, actions) {
+        console.log(''+self.totalPrice);
+        return actions.order.create({
+          purchase_units: [{
+            amount: {
+              value: ''+self.totalPrice
+            }
+          }]
+        });
+      },
+
+      onApprove: function(data, actions) {
+        return actions.order.capture().then(function(details) {
+          alert('Transaction completed by ' + details.payer.name.given_name + '!');
+        });
+      }
+
+
+    }).render('#paypal-button-container');
+
     axios.get('/api/user/rest-auth/user/', {withCredentials: true, headers: { 'Authorization': "Token " + this.$session.get("key") }}).then(
         response => {
           console.log(response.data);
@@ -89,14 +93,14 @@ export default {
 }
 </script>
 <style scoped>
-.cart-container {
+.payment-container {
   max-width: 1400px;
   margin-left: auto;
   margin-right: auto;
   margin-top: 16px;
-  text-align: right;
+  text-align: center;
 }
-.cart-loading-container {
+.payment-loading-container {
   width: 100%;
   text-align: center;
 }

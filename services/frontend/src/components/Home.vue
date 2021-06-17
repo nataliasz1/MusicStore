@@ -8,6 +8,10 @@
       </b-jumbotron>
     </div>
     <p class="text-left ml-2 h2">Promowane produkty</p>
+    <div v-if="loading">
+      <h5 primary>WCZYTYWANIE DANYCH</h5>
+      <b-spinner style="width: 3rem; height: 3rem;" variant="primary"></b-spinner>
+    </div>
     <div class="products-container">
       <ProductBox v-for="product in products" :key="product.catalog_item_id" v-bind:product="product"></ProductBox>
     </div>
@@ -23,14 +27,16 @@ export default {
   components: {ProductBox},
   data: function () {
     return {
-      products: []
+      products: [],
+      loading: true
     }
   },
   mounted() {
-    axios.get('/api/catalog/').then(
+    axios.get('/api/catalog/products/').then(
         response => {
           this.products = response.data;
-          console.log(response.data)
+          console.log(response.data);
+          this.loading = false;
         }
     )
   }
